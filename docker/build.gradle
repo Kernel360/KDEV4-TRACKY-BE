@@ -1,0 +1,7 @@
+tasks.bootJar {
+    enabled = true
+}
+
+tasks.jar {
+    enabled = true
+}
