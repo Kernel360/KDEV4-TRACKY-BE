@@ -1,5 +1,7 @@
 package kernel360trackybe.trackyhub.application.dto;
 
+import kernel360.trackycore.core.infrastructure.entity.DriveEntity;
+import kernel360.trackycore.core.infrastructure.entity.GpsHistoryEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -20,6 +22,7 @@ public class GpsHistoryMessage {
 	private long lon;    // GPS 경도
 	private String ang;    // 방향
 	private String spd;    // 속도
+	private int sum;		// 단건 주행 거리
 
 	private GpsHistoryMessage(String mdn, String tid, String mid, String pv, String did,
 		LocalDateTime oTime, int sec, String gcd, long lat, long lon,
@@ -52,6 +55,20 @@ public class GpsHistoryMessage {
 			cycleGpsRequest.getLon(),
 			cycleGpsRequest.getAng(),
 			cycleGpsRequest.getSpd()
+		);
+	}
+
+	public GpsHistoryEntity toGpsHistory(DriveEntity drive) {
+
+		return new GpsHistoryEntity(
+			drive,
+			this.getOTime(),
+			this.getGcd(),
+			this.getLat(),
+			this.getLon(),
+			this.getAng(),
+			this.getSpd(),
+			this.getSum()
 		);
 	}
 }

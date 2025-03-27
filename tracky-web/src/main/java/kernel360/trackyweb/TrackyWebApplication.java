@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
 @EntityScan(basePackages = {
-	"kernel360.trackycore.core.infrastructure",
-	"kernel360.trackyweb.biz.presentation.entity"
+	"kernel360trackybe.trackycore.core.infrastructure",
 })
 public class TrackyWebApplication {
 

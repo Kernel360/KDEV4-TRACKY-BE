@@ -51,4 +51,9 @@ public class DriveEntity extends DateBaseEntity {
 
 	@Column(name = "drive_off_time")
 	private String driveOffTime;
+
+	public DriveEntity(String mdn, long rentId, DeviceEntity device, LocationEntity location, String driveDistance,
+		String driveOnTime, String driveOffTime) {
+			
+		}
 }

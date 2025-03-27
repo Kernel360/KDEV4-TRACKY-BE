@@ -1,10 +1,12 @@
 package kernel360trackybe.trackyhub.application.service;
 
+import kernel360.trackycore.core.infrastructure.entity.DriveEntity;
+import kernel360.trackycore.core.infrastructure.entity.GpsHistoryEntity;
+import kernel360.trackycore.core.infrastructure.repository.DriveRepository;
+import kernel360.trackycore.core.infrastructure.repository.GpsHistoryRepository;
 import kernel360trackybe.trackyhub.config.RabbitMQConfig;
-import kernel360trackybe.trackyhub.domain.History;
 import kernel360trackybe.trackyhub.application.dto.GpsHistoryMessage;
-import kernel360trackybe.trackyhub.infrastructure.repository.CarRepository;
-import kernel360trackybe.trackyhub.infrastructure.repository.HistoryRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,15 +18,16 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CarInfoConsumerService {
 
-	private final HistoryRepository historyRepository;
-	private final CarRepository carRepository;
+	private final DriveRepository driveRepository;
+	private final GpsHistoryRepository gpsHistoryRepository;
 
 	// GPS 정보 처리 큐
 	@RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
 	public void receiveCarMessage(GpsHistoryMessage message) {
 
-		History history = History.from(message);
+		DriveEntity drive = driveRepository.findByMdn(message.getMdn());
+		GpsHistoryEntity gpsHistoryEntity = message.toGpsHistory(drive);
 
-		historyRepository.save(history);
+		gpsHistoryRepository.save(gpsHistoryEntity);
 	}
 }
