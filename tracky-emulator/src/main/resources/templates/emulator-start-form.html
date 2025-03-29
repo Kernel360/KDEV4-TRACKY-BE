@@ -36,5 +36,17 @@
 </form>
 
 <p th:if="${message}" th:text="${message}">결과 메시지</p>
+
+<!-- ✅ 토큰 요청 결과 표시 -->
+<div th:if="${tokenResults}">
+    <h3>토큰 요청 결과</h3>
+    <ul>
+        <li th:each="entry : ${tokenResults}">
+            <span th:text="${entry.key}"></span> →
+            <span th:text="${entry.value}"></span>
+        </li>
+    </ul>
+</div>
+
 </body>
 </html>

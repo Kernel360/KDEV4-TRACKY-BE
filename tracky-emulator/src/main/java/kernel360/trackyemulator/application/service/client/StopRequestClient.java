@@ -11,18 +11,18 @@ import org.springframework.web.client.RestTemplate;
 
 import kernel360.trackyemulator.application.dto.ApiResponse;
 import kernel360.trackyemulator.application.dto.CarOnOffRequest;
+import kernel360.trackyemulator.application.service.util.DistanceCalculator;
 import kernel360.trackyemulator.application.service.util.RandomLocationGenerator;
 import kernel360.trackyemulator.domain.EmulatorInstance;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class StartRequestClient {
+public class StopRequestClient {
 
 	private final RestTemplate restTemplate;
-	private final RandomLocationGenerator locationGenerator;
 
-	public ApiResponse sendCarStart(EmulatorInstance car) {
+	public ApiResponse sendCarStop(EmulatorInstance car) {
 		//CarOnOffRequest DTO set
 		CarOnOffRequest request = new CarOnOffRequest();
 		request.setMdn(car.getMdn());
@@ -31,13 +31,13 @@ public class StartRequestClient {
 		request.setPv(car.getPv());
 		request.setDid(car.getDid());
 
-		request.setOnTime(LocalDateTime.now());
+		request.setOffTime(LocalDateTime.now());
 		request.setGcd("A");
-		request.setLat(locationGenerator.randomLatitude());
-		request.setLon(locationGenerator.randomLongitude());
-		request.setAng(0);
-		request.setSpd(0);
-		request.setSum(0);
+		request.setLat(car.getCycleLastLat());
+		request.setLon(car.getCycleLastLon());
+		request.setAng(car.getCycleLastAng());
+		request.setSpd(car.getCycleLastSpeed());
+		request.setSum(car.getSum());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -46,7 +46,7 @@ public class StartRequestClient {
 
 		//sendCarStart
 		ResponseEntity<ApiResponse> response = restTemplate.postForEntity(
-			"/http://localhost:8082/api/car/",
+			"/http://localhost:8082/api/car/시동 오프",
 			entity,
 			ApiResponse.class
 		);
@@ -55,7 +55,7 @@ public class StartRequestClient {
 		ApiResponse apiResponse = response.getBody();
 		if (apiResponse == null || !("000".equals(apiResponse.getRstCd()))) {
 			throw new IllegalStateException(
-				"Start 정보 전송 실패 " + apiResponse.getMdn());
+				"Stop 정보 전송 실패 " + apiResponse.getMdn());
 		}
 
 		return apiResponse;

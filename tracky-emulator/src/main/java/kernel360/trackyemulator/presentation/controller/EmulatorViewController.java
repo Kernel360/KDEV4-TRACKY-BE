@@ -1,5 +1,7 @@
 package kernel360.trackyemulator.presentation.controller;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,25 +26,33 @@ public class EmulatorViewController {
 
 	@PostMapping("/configure")
 	public String configure(@RequestParam(name = "count") int count, Model model) {
-		System.out.println("입력된 에뮬레이터 개수: " + count);
-		carInstanceManager.configureCount(count);
-		model.addAttribute("message", count + "대의 에뮬레이터 개수 설정 완료!");
+		int createdInstance = carInstanceManager.createEmulator(count);
+		model.addAttribute("message", createdInstance + "대의 에뮬레이터 개수 설정 완료!");
+
 		return "emulator-start-form";
 	}
 
 	@PostMapping("/fetch-token")
 	public String fetchToken(Model model) {
-		// carInstanceManager.fetchAllTokens();
-		model.addAttribute("message", "토큰 및 초기 정보 모두 받아오기 완료!");
+		Map<String, String> result = carInstanceManager.fetchAllTokens();
+		model.addAttribute("tokenResults", result);
+		model.addAttribute("message", "토큰 및 초기 정보 받아오기 완료!");
+
 		return "emulator-start-form";
 	}
 
 	@PostMapping("/start")
 	public String startEmulator(Model model) {
-		// carInstanceManager.sendStartRequests();
+		carInstanceManager.sendStartRequests();
 		model.addAttribute("message", "모든 차량 시동 ON 요청 완료!");
 		return "emulator-status";
 	}
 
+	@PostMapping("/stop")
+	public String stopEmulator(Model model) {
+		carInstanceManager.sendStopRequests();
+
+		return "emulator-status";
+	}
 
 }
