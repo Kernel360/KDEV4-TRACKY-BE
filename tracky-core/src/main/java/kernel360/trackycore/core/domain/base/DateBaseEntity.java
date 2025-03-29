@@ -1,4 +1,4 @@
-package kernel360.trackycore.core.infrastructure.base;
+package kernel360.trackycore.core.domain.base;
 
 import java.time.LocalDateTime;
 
@@ -6,11 +6,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import lombok.Getter;
 
+@Getter
 @MappedSuperclass
 public abstract class DateBaseEntity {
 
-	@Column(name = "created_at", updatable = false)
+	@Column(name = "created_at", nullable = false, updatable = false)
 	protected LocalDateTime createdAt;
 
 	@Column(name = "updated_at")
@@ -27,6 +29,4 @@ public abstract class DateBaseEntity {
 		this.updatedAt = LocalDateTime.now();
 	}
 
-	public LocalDateTime getCreatedAt() { return createdAt; }
-	public LocalDateTime getUpdatedAt() { return updatedAt; }
 }

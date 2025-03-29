@@ -54,7 +54,7 @@ protected void init() {
 			parseClaims(token);
 			return true;
 		} catch (JwtException | IllegalArgumentException e) {
-			return false;
+			return true;
 		}
 	}
 

@@ -1,4 +1,4 @@
-package kernel360.trackycore.core.infrastructure.entity;
+package kernel360.trackycore.core.domain.entity;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import kernel360.trackycore.core.domain.base.DateBaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "car")
 @Getter
 @NoArgsConstructor
-public class CarEntity {
+public class CarEntity extends DateBaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;              // 차량 ID
@@ -45,18 +46,39 @@ public class CarEntity {
 
 	private String purpose;       // 차량용도
 	private String status;        // 차량상태
-	private int sum;           // 누적 주행 거리
-
-	@Column(name = "created_at", nullable = false, updatable = false)
-	private LocalDateTime createdAt;   // 생성 시간
-
-	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;   // 수정 시간
+	private	String sum;           // 누적 주행 거리
 
 	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;   // 삭제 시간
 
 	public void updateSum(int sum) {
 		this.sum += sum;
+	}
+
+	public static CarEntity create(
+		Long id,
+		String mdn,
+		String bizId,
+		DeviceEntity device,
+		String carType,
+		String carPlate,
+		String carYear,
+		String purpose,
+		String status,
+		String sum
+	) {
+		CarEntity car = new CarEntity();
+		car.id = id;
+		car.mdn = mdn;
+		car.bizId = bizId;
+		car.device = device;
+		car.carType = carType;
+		car.carPlate = carPlate;
+		car.carYear = carYear;
+		car.purpose = purpose;
+		car.status = status;
+		car.sum = sum;
+		car.createdAt = LocalDateTime.now();
+		return car;
 	}
 }

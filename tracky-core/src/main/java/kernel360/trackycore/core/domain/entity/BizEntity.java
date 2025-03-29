@@ -1,4 +1,4 @@
-package kernel360.trackyweb.biz.presentation.entity;
+package kernel360.trackycore.core.domain.entity;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import kernel360.trackycore.core.infrastructure.base.DateBaseEntity;
+import kernel360.trackycore.core.domain.base.DateBaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

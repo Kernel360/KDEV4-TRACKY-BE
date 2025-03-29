@@ -1,8 +1,8 @@
 package kernel360trackybe.trackyhub.application.service;
 
 import jakarta.transaction.Transactional;
-import kernel360.trackycore.core.infrastructure.entity.DriveEntity;
-import kernel360.trackycore.core.infrastructure.entity.GpsHistoryEntity;
+import kernel360.trackycore.core.domain.entity.DriveEntity;
+import kernel360.trackycore.core.domain.entity.GpsHistoryEntity;
 import kernel360trackybe.trackyhub.config.RabbitMQConfig;
 import kernel360trackybe.trackyhub.application.dto.GpsHistoryMessage;
 
