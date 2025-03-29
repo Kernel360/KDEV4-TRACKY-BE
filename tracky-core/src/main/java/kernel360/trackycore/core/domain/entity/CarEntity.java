@@ -56,7 +56,6 @@ public class CarEntity extends DateBaseEntity {
 	}
 
 	public static CarEntity create(
-		Long id,
 		String mdn,
 		String bizId,
 		DeviceEntity device,
@@ -68,7 +67,6 @@ public class CarEntity extends DateBaseEntity {
 		String sum
 	) {
 		CarEntity car = new CarEntity();
-		car.id = id;
 		car.mdn = mdn;
 		car.bizId = bizId;
 		car.device = device;
