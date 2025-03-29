@@ -13,9 +13,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtTokenProvider jwtTokenProvider;
+	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
 	// 생성자 주입
 	public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
@@ -28,24 +32,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
-		HttpServletResponse response,
-		FilterChain filterChain)
+									HttpServletResponse response,
+									FilterChain filterChain)
 		throws ServletException, IOException {
 
 		String token = resolveToken(request);
 
 		if (token != null && jwtTokenProvider.validateToken(token)) {
-			String memberId = jwtTokenProvider.getMemberId(token);
 
-			// 예시로 ROLE_USER 권한만 부여 (필요 시 토큰의 role 클레임 활용)
+			String memberId = jwtTokenProvider.getMemberId(token);
+			String admin = jwtTokenProvider.getAdmin(token);
+
+			// 추출한 값을 GrantedAuthority로 변환
 			UsernamePasswordAuthenticationToken authentication =
 				new UsernamePasswordAuthenticationToken(
 					memberId,
 					null,
-					Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+					Collections.singletonList(new SimpleGrantedAuthority(admin))
 				);
 
+			// SecurityContext에 Authentication 객체를 설정합니다.
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+			logger.info("Authentication set for memberId: {}", memberId);
+		} else {
+			logger.warn("JWT token is missing or invalid");
 		}
 
 		filterChain.doFilter(request, response);

@@ -30,13 +30,13 @@ protected void init() {
 		this.secretKey = Keys.hmacShaKeyFor(secretKeyRaw.getBytes());
 	}
 
-	public String generateToken(String memberId, String role) {
+	public String generateToken(String memberId, String admin) {
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + expiration);
 
 		return Jwts.builder()
 			.setSubject(memberId)
-			.claim("role", role)
+			.claim("admin", admin)
 			.setIssuedAt(now)
 			.setExpiration(validity)
 			.signWith(secretKey, SignatureAlgorithm.HS256)
@@ -48,12 +48,19 @@ protected void init() {
 		return parseClaims(token).getBody().getSubject();
 	}
 
+	// 토큰에서 DB에 저장된 권한 값(admin)을 추출하는 메서드
+	public String getAdmin(String token) {
+		return parseClaims(token).getBody().get("admin", String.class);
+	}
+
 	// 토큰의 유효성을 검사 (예: 만료, 변조 여부 등)
 	public boolean validateToken(String token) {
 		try {
 			parseClaims(token);
 			return true;
 		} catch (JwtException | IllegalArgumentException e) {
+			// 예외 상황을 로깅
+			//logger.error("Invalid JWT token: {}", e.getMessage());
 			return false;
 		}
 	}

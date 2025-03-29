@@ -36,12 +36,12 @@ public class DriveEntity extends DateBaseEntity {
 	private long rentId;
 
 
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "device_id")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private DeviceEntity device;
 
-	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "drive_loc_id")
+	@OneToOne(fetch = FetchType.LAZY)
 	private LocationEntity location;
 
 	@Column(name = "drive_distance")
@@ -52,9 +52,4 @@ public class DriveEntity extends DateBaseEntity {
 
 	@Column(name = "drive_off_time")
 	private String driveOffTime;
-
-	public DriveEntity(String mdn, long rentId, DeviceEntity device, LocationEntity location, String driveDistance,
-		String driveOnTime, String driveOffTime) {
-			
-		}
 }
