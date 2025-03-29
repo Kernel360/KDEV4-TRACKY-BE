@@ -12,7 +12,6 @@ dependencies {
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 
 	implementation project(':tracky-core')
-	implementation project(':tracky-common')
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 

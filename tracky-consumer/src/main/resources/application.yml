@@ -1,6 +1,6 @@
 spring:
   application:
-    name: tracky-hub
+    name: tracky-consumer
 
   datasource:
      url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
@@ -21,6 +21,5 @@ spring:
       hibernate.format_sql: true
       hibernate.jdbc.time_zone: Asia/Seoul
 
-
 server:
-  port: 8082
+  port: 8083

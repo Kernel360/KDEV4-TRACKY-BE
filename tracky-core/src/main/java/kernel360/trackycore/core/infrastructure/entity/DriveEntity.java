@@ -1,5 +1,7 @@
 package kernel360.trackycore.core.infrastructure.entity;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
@@ -36,25 +38,41 @@ public class DriveEntity extends DateBaseEntity {
 	private long rentId;
 
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "device_id")
-	private DeviceEntity device;
+	@Column(name = "device_id")
+	private long deviceId;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "drive_loc_id")
 	private LocationEntity location;
+	// @Column(name = "drive_loc_id")
+	// private long driveLocId;
 
 	@Column(name = "drive_distance")
-	private String driveDistance;
+	private int driveDistance;
 
 	@Column(name = "drive_on_time")
-	private String driveOnTime;
+	private LocalDateTime driveOnTime;
 
 	@Column(name = "drive_off_time")
-	private String driveOffTime;
+	private LocalDateTime driveOffTime;
 
-	public DriveEntity(String mdn, long rentId, DeviceEntity device, LocationEntity location, String driveDistance,
-		String driveOnTime, String driveOffTime) {
-			
-		}
+	public void updateDistance(int sum) {
+		this.driveDistance = sum;
+	}
+
+	public void updateOffTime(LocalDateTime offTime) {
+		this.driveOffTime = offTime;
+	}
+
+	public static DriveEntity create(String mdn, long rentId, long deviceId, LocationEntity location, LocalDateTime onTime) {
+		DriveEntity drive = new DriveEntity();
+		drive.mdn = mdn;
+		drive.rentId = rentId;
+		drive.deviceId = deviceId;
+		drive.location = location;
+		drive.driveOnTime = onTime;
+		drive.driveDistance = 0;
+
+		return drive;
+	}
 }
