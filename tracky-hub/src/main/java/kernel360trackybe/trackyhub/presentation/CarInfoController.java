@@ -21,9 +21,16 @@ public class CarInfoController {
 	private final CarInfoProducerService producerService;
 
 	@PostMapping
-	public ApiResponse<String> registerCarInfo(@RequestBody CycleInfoRequest cycleInfoRequest) {
+	public ApiResponse<String> sendCycleInfo(@RequestBody CycleInfoRequest cycleInfoRequest) {
 
-		producerService.sendCarInfo(cycleInfoRequest);
+		producerService.sendCycleInfo(cycleInfoRequest);
         return new ApiResponse<>("000", "Success", cycleInfoRequest.getMdn());
 	}
+
+	// @PostMapping(value = "/start")
+	// public ApiResponse<String> sendCarStart(@RequestBody CarOnOffRequest carOnOffRequest) {
+	//
+	// 	producerService.sendCarStart(carOnOffRequest);
+	// 	return new ApiResponse<>("000", "Success", carOnOffRequest.getMdn());
+	// }
 }

@@ -1,4 +1,4 @@
-package kernel360trackybe.trackyhub.config;
+package kernel360.trackyconsumer.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -17,7 +17,6 @@ public class RabbitMQConfig {
 	// public static final String QUEUE_NAME = "car-info-queue";
 	public static final String GPS_QUEUE_NAME = "gps-queue";
 	public static final String ONOFF_QUEUE_NAME = "onOffQueue";
-	// public static final String OFF_QUEUE_NAME = "off-queue";
 	
 	@Bean
 	public TopicExchange exchange() {
@@ -34,11 +33,6 @@ public class RabbitMQConfig {
 		return new Queue(ONOFF_QUEUE_NAME, true);
 	}
 	
-	// @Bean
-	// public Queue offQueue() {
-	// 	return new Queue(OFF_QUEUE_NAME, true);
-	// }
-	
 	@Bean
 	public Binding gpsBinding(Queue gpsQueue, TopicExchange exchange) {
 		return BindingBuilder.bind(gpsQueue).to(exchange).with("gps");
@@ -49,10 +43,10 @@ public class RabbitMQConfig {
 		return BindingBuilder.bind(onOffQueue).to(exchange).with("on");
 	}
 	
-	// @Bean
-	// public Binding offBinding(Queue offQueue, TopicExchange exchange) {
-	// 	return BindingBuilder.bind(offQueue).to(exchange).with("off");
-	// }
+	@Bean
+	public Binding offBinding(Queue onOffQueue, TopicExchange exchange) {
+		return BindingBuilder.bind(onOffQueue).to(exchange).with("off");
+	}
 
 	// @Bean
 	// public Queue queue() {

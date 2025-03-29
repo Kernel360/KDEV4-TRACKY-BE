@@ -1,7 +1,5 @@
-package kernel360trackybe.trackyhub.application.dto;
+package kernel360.trackyconsumer.application.dto;
 
-import kernel360.trackycore.core.infrastructure.entity.DriveEntity;
-import kernel360.trackycore.core.infrastructure.entity.GpsHistoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class GpsHistoryMessage {
+
 	private String mdn;
 	private LocalDateTime oTime;  // 발생시간
 	private int cCnt;

@@ -1,11 +1,11 @@
-package kernel360trackybe.trackyhub.application.dto;
+package kernel360.trackyconsumer.application.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import java.time.LocalDateTime;
 
 import kernel360.trackycore.core.infrastructure.entity.LocationEntity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -28,11 +28,10 @@ public class CarOnOffRequest {
     private int sum;              // 누적 주행 거리(m)
 
     public LocationEntity toLocationEntity() {
-        LocationEntity location = LocationEntity.create(
-            "시작 위치", // 이거 구해야하나? 프론트에서 하는거지?
-            this.lon,
-            this.lat);
 
-        return location;
+		return LocationEntity.create(
+			"시작 위치", // 이거 구해야하나? 프론트에서 하는거지?
+			this.lon,
+			this.lat);
     }
 }
