@@ -64,5 +64,3 @@ gradle-app.setting
 **/.DS_Store
 
 .vscode/settings.json
-
-**/bin

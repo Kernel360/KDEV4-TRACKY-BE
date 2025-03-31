@@ -2,8 +2,8 @@ package kernel360.trackyconsumer.application.dto;
 
 import java.time.LocalDateTime;
 
-import kernel360.trackycore.core.common.entity.DriveEntity;
-import kernel360.trackycore.core.common.entity.GpsHistoryEntity;
+import kernel360.trackycore.core.infrastructure.entity.DriveEntity;
+import kernel360.trackycore.core.infrastructure.entity.GpsHistoryEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import kernel360.trackycore.core.common.entity.RentEntity;
+import kernel360.trackycore.core.infrastructure.entity.RentEntity;
 
 @Repository
 public interface RentEntityRepository extends JpaRepository<RentEntity, Long> {

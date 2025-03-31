@@ -8,17 +8,19 @@ import jakarta.transaction.Transactional;
 import kernel360.trackyconsumer.application.dto.CarOnOffRequest;
 import kernel360.trackyconsumer.application.dto.CycleGpsRequest;
 import kernel360.trackyconsumer.infrastructure.repository.CarEntityRepository;
+import kernel360.trackyconsumer.infrastructure.repository.DeviceEntityRepository;
 import kernel360.trackyconsumer.infrastructure.repository.DriveRepository;
 import kernel360.trackyconsumer.infrastructure.repository.GpsHistoryRepository;
 import kernel360.trackyconsumer.infrastructure.repository.LocationEntityRepository;
 import kernel360.trackyconsumer.infrastructure.repository.RentEntityRepository;
+import kernel360.trackycore.core.infrastructure.entity.CarEntity;
+import kernel360.trackycore.core.infrastructure.entity.DeviceEntity;
+import kernel360.trackycore.core.infrastructure.entity.DriveEntity;
+import kernel360.trackycore.core.infrastructure.entity.GpsHistoryEntity;
 import kernel360.trackyconsumer.config.RabbitMQConfig;
 import kernel360.trackyconsumer.application.dto.GpsHistoryMessage;
-import kernel360.trackycore.core.common.entity.CarEntity;
-import kernel360.trackycore.core.common.entity.DriveEntity;
-import kernel360.trackycore.core.common.entity.GpsHistoryEntity;
-import kernel360.trackycore.core.common.entity.LocationEntity;
-import kernel360.trackycore.core.common.entity.RentEntity;
+import kernel360.trackycore.core.infrastructure.entity.LocationEntity;
+import kernel360.trackycore.core.infrastructure.entity.RentEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -84,8 +86,6 @@ public class CarInfoConsumer {
 		DriveEntity drive = driveRepository.findByMdnAndOtime(carOnOffRequest.getMdn(), carOnOffRequest.getOnTime());
 		drive.updateDistance(carOnOffRequest.getSum());
 		drive.updateOffTime(carOnOffRequest.getOffTime());
-
-
 
 		CarEntity car = carEntityRepository.findByMdn(carOnOffRequest.getMdn());
 		car.updateSum(drive.getDriveDistance());

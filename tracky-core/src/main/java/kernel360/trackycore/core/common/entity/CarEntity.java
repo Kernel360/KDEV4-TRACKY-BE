@@ -71,8 +71,4 @@ public class CarEntity extends DateBaseEntity {
 		String purpose, String status, int sum) {
 		return new CarEntity(mdn, bizId, device, carType, carPlate, carYear, purpose, status, sum);
 	}
-
-	public void updateSum(int updateSum) {
-		this.sum += updateSum;
-	}
 }

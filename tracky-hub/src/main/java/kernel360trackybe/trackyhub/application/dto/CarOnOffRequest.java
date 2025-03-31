@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import kernel360.trackycore.core.common.entity.LocationEntity;
+import kernel360.trackycore.core.infrastructure.entity.LocationEntity;
 
 @Getter
 @Setter
