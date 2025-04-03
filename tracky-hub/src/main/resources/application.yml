@@ -4,10 +4,26 @@ spring:
 
   application:
     name: tracky-hub
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
     
 logging:
   level:
     root: INFO
+
+
 
 server:
   port: 8082
