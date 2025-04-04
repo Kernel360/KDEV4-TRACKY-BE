@@ -1,0 +1,49 @@
+:snippets: build/generated-snippets
+
+== Car Fields
+
+차량 도메인의 응답 필드입니다.
+
+include::{snippets}/car-fields/response-fields.adoc[]
+
+
+== GetAll API
+
+모든 차량을 조회합니다.
+
+.Request
+include::{snippets}/get-all/http-request.adoc[]
+
+.Response
+include::{snippets}/get-all/http-response.adoc[]
+include::{snippets}/get-all/response-fields.adoc[]
+
+== SearchByMdn API
+
+차량 번호를 검색하여 차량을 조회합니다.
+
+.Request
+include::{snippets}/search-by-mdn/http-request.adoc[]
+include::{snippets}/search-by-mdn/query-parameters.adoc[]
+
+.Response
+include::{snippets}/search-by-mdn/http-response.adoc[]
+include::{snippets}/search-by-mdn/response-fields.adoc[]
+
+
+== SearchOnyByMdn API
+
+단일 차량을 조회합니다.
+
+.Request
+include::{snippets}/search-one-by-mdn/http-request.adoc[]
+include::{snippets}/search-one-by-mdn/path-parameters.adoc[]
+
+.Response
+include::{snippets}/search-one-by-mdn/http-response.adoc[]
+include::{snippets}/search-one-by-mdn/response-fields.adoc[]
+
+
+
+
+

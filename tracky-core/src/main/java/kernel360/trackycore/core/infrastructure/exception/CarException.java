@@ -13,6 +13,6 @@ public class CarException extends GlobalException {
 	}
 
 	public static CarException duplicated() {
-		return new CarException(ErrorCode.CAR_DUPLICATED);
+		return new CarException(ErrorCode.CAR_ALREADY_EXISTS);
 	}
 }
