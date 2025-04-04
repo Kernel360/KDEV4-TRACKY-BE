@@ -86,7 +86,17 @@ class CarControllerTest {
 	}
 
 	@Test
-	void searchByMdn() {
+	void searchByMdn() throws Exception {
+		carRepository.save(car);
+		ResultActions resultActions = mockMvc.perform(
+			MockMvcRequestBuilders.get("/api/cars/search")
+				.param("mdn", carCreateRequest.mdn())
+				.contentType(MediaType.APPLICATION_JSON)
+		);
+		MvcResult result = resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.data").isArray())
+			.andReturn();
 	}
 
 	@Test
@@ -136,7 +146,7 @@ class CarControllerTest {
 	@Test
 	void update() throws Exception {
 		carRepository.save(car);
-		
+
 		ResultActions resultActions = mockMvc.perform(
 			MockMvcRequestBuilders.patch("/api/cars/update/{mdn}", carCreateRequest.mdn())
 				.contentType(MediaType.APPLICATION_JSON)
