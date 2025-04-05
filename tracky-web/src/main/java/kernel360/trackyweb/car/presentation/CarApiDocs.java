@@ -20,8 +20,12 @@ public interface CarApiDocs {
 	@Operation(summary = "전체 차량 목록 조회", description = "모든 차량을 조회합니다.")
 	ApiResponse<List<CarResponse>> getAll();
 
-	@Operation(summary = "MDN으로 차량 검색", description = "MDN 키워드로 차량을 검색합니다.")
-	ApiResponse<List<CarResponse>> searchByMdn(@RequestParam String mdn);
+	@Operation(summary = "mdn, status, purpose 필터링 검색", description = "mdn, status, purpose 필터링 차량 검색합니다")
+	ApiResponse<List<CarResponse>> searchByFilter(
+		@RequestParam(required = false) String mdn,
+		@RequestParam(required = false) String status,
+		@RequestParam(required = false) String purpose
+	);
 
 	@Operation(summary = "차량 MDN으로 단건 조회", description = "MDN 기준으로 차량을 조회합니다.")
 	ApiResponse<CarResponse> searchOneByMdn(@PathVariable String mdn);

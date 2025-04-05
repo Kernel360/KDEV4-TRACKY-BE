@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import kernel360.trackycore.core.common.entity.CarEntity;
 
 @Repository
-public interface CarRepository extends JpaRepository<CarEntity, Long> {
+public interface CarRepository extends JpaRepository<CarEntity, Long>, CarRepositoryCustom {
 
 	/**
 	 * Mdn 으로 차량 검색 + 검색어를 포함한 모든 차량 + 결과값의 앞부분이 검색어와 일치할수록 앞으로 정렬

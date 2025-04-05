@@ -35,10 +35,12 @@ public class CarController implements CarApiDocs {
 	}
 
 	@GetMapping("/search")
-	public ApiResponse<List<CarResponse>> searchByMdn(
-		@RequestParam String mdn
+	public ApiResponse<List<CarResponse>> searchByFilter(
+		@RequestParam(required = false) String mdn,
+		@RequestParam(required = false) String status,
+		@RequestParam(required = false) String purpose
 	) {
-		return carService.searchByMdn(mdn);
+		return carService.searchByFilter(mdn, status, purpose);
 	}
 
 	@GetMapping("/search/{mdn}")
