@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -41,16 +42,11 @@ public class SecurityConfig {
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // JWT 쓸 땐 세션 X
 			// 천승준 - api test 때매 임시 제거
 			.authorizeHttpRequests(auth -> auth
+				.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.requestMatchers("/api/login").permitAll()   // 로그인은 인증 없이 허용
 				.requestMatchers("/api/**").authenticated()  // 나머지 API는 인증 필요
 			)
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-			// .authorizeHttpRequests(auth -> auth
-			// 	.requestMatchers("/login", "/api/login", "/api/car", "/api/car/**").permitAll()
-			// 	.anyRequest().authenticated()
-			// )
-			// .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-			// .httpBasic(Customizer.withDefaults())
 			.build();
 	}
 

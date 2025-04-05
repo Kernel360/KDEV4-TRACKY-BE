@@ -1,5 +1,6 @@
 package kernel360.trackyweb.rent.application.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,13 +46,17 @@ public class RentService {
 	}
 
 	/**
-	 * rentUuid 기반 대여 검색
-	 * @Param rentUuid
-	 * @return 검색된 대여 List
+	 * 필터링 기반 검색
+	 * @param rentUuid
+	 * @param rentStatus
+	 * @param rentDate
+	 * @return 검색된 예약 List
 	 */
-	public ApiResponse<List<RentResponse>> searchByRentUuid(String rentUuid) {
-		return ApiResponse.success(RentResponse.fromList(rentRepository.findByRentUuidContainingOrdered(rentUuid)));
+	public ApiResponse<List<RentResponse>> searchByFilter(String rentUuid, String rentStatus, LocalDateTime rentDate) {
+		List<RentEntity> results = rentRepository.searchByFilters(rentUuid, rentStatus, rentDate);
+		return ApiResponse.success(RentResponse.fromList(results));
 	}
+
 
 	/**
 	 * rentUuid 값으로 검색

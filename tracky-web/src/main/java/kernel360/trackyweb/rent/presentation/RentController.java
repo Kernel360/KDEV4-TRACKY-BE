@@ -1,7 +1,10 @@
 package kernel360.trackyweb.rent.presentation;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('admin')")
 @RequestMapping("/api/rents")
 @RequiredArgsConstructor
 public class RentController implements RentApiDocs {
@@ -36,13 +39,17 @@ public class RentController implements RentApiDocs {
 
 
 	@GetMapping("/search")
-	public ApiResponse<List<RentResponse>> searchByRentUuid(
-		@RequestParam String rentUuid
+	public ApiResponse<List<RentResponse>> searchByFilter(
+		@RequestParam(required = false) String rentUuid,
+		@RequestParam(required = false, name = "status") String rentStatus,
+		@RequestParam(required = false, name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rentDate // yyyy-MM-dd
 	) {
-		return rentService.searchByRentUuid(rentUuid);
+		// LocalDate를 LocalDateTime으로 변환
+		LocalDateTime rentDateTime = rentDate != null ? rentDate.atStartOfDay() : null;
+		return rentService.searchByFilter(rentUuid, rentStatus, rentDateTime);
 	}
 
-	@GetMapping("/search/{rentUuid}")
+	@GetMapping("/search/{rentUuid}/detail")
 	public ApiResponse<RentResponse> searchDetailByRentUuid(
 		@PathVariable String rentUuid
 	){
@@ -50,7 +57,7 @@ public class RentController implements RentApiDocs {
 		return rentService.searchDetailByRentUuid(rentUuid);
 	}
 
-	@PostMapping("/register")
+	@PostMapping("/create")
 	public ApiResponse<RentResponse> create(
 		@RequestBody RentRequest rentRequest
 	){

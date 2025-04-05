@@ -12,7 +12,7 @@ import kernel360.trackycore.core.common.entity.CarEntity;
 import kernel360.trackycore.core.common.entity.RentEntity;
 
 @Repository
-public interface RentRepository extends JpaRepository<RentEntity, Long> {
+public interface RentRepository extends JpaRepository<RentEntity, Long>, RentRepositoryCustom {
 	Optional<RentEntity> searchByRentUuid(String rentUuid);
 	Optional<RentEntity> findByRentUuid(String rentUuid);
 	void deleteByRentUuid(String rentUuid);
