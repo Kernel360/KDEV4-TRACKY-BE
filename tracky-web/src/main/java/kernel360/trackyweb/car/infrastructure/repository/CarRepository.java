@@ -22,6 +22,7 @@ public interface CarRepository extends JpaRepository<CarEntity, Long>, CarReposi
 		+ "ORDER BY LOCATE(LOWER(:mdn), LOWER(c.mdn)) ASC")
 	List<CarEntity> findByMdnContainingOrdered(@Param("mdn") String mdn);
 
+
 	/**
 	 * 디바이스 내용을 포함한 차량 단건 데이터
 	 * @param mdn 차량 mdn
@@ -32,16 +33,21 @@ public interface CarRepository extends JpaRepository<CarEntity, Long>, CarReposi
 
 	/**
 	 * mdn이 일치하는 차량 찾기
-	 * @param mdn
+	 * @param mdn 차량 mdn
 	 * @return 차량 단건 조회
 	 */
 	Optional<CarEntity> findByMdn(String mdn);
 
-	boolean existsByMdn(String mdn);
+	/**
+	 * mdn 차량이 존재하는지 체크
+	 * @param mdn 차량 mdn
+	 * @return Boolean
+	 */
+	Boolean existsByMdn(String mdn);
 
 	/**
 	 * MDN이 일치하는 차량 삭제
-	 * @param mdn
+	 * @param mdn 차량 mdn
 	 */
 	void deleteByMdn(String mdn);
 }

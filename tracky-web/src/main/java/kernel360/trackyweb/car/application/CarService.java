@@ -38,6 +38,16 @@ public class CarService {
 	}
 
 	/**
+	 * mdn이 일치하는 차량 찾기
+	 * @param mdn 차량 mdn
+	 * @return 차량 단건 조회
+	 */
+	@Transactional
+	public ApiResponse<Boolean> isMdnExist(String mdn) {
+		return ApiResponse.success(carRepository.existsByMdn(mdn));
+	}
+
+	/**
 	 * 필터링 기반 검색
 	 * @param mdn
 	 * @param status
