@@ -9,22 +9,10 @@ public record RentDriveHistory(
 	String mdn,
 	LocalDateTime rentStime,
 	LocalDateTime rentEtime,
-	List<DrivelistDto> drivelist
+	List<DriveList> drivelist
 ) {
-	public RentDriveHistory(String rentUuid, String renterName, String mdn,
-		LocalDateTime rentStime, LocalDateTime rentEtime) {
-		this(rentUuid, renterName, mdn, rentStime, rentEtime, null); // ← 기본 생성자
-	}
-
-	public record DrivelistDto(
-		Long driveId,
-		int onLat,
-		int onLon,
-		int offLat,
-		int offLon,
-		double sum,
-		LocalDateTime driveOnTime,
-		LocalDateTime driveOffTime
-	) {
+	public static RentDriveHistory create(String rentUuid, String renterName, String mdn,
+		LocalDateTime rentStime, LocalDateTime rentEtime, List<DriveList> drivelist) {
+		return new RentDriveHistory(rentUuid, renterName, mdn, rentStime, rentEtime, drivelist); // ← 기본 생성자
 	}
 }
