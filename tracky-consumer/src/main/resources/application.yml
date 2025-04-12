@@ -1,9 +1,8 @@
 spring:
   config:
     import: classpath:application-common.yml
-  jpa:
-    hibernate:
-      ddl-auto: update
+  profiles:
+    include: rabbitmq
   application:
     name: tracky-consumer
 
