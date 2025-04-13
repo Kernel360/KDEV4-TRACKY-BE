@@ -5,4 +5,7 @@ public class RentException extends GlobalException {
 		super(errorCode);
 	}
 
-public static RentException notFound() {return new RentException(ErrorCode.RENT_NOT_FOUND);}}
+	public static RentException notFound() {
+		return new RentException(ErrorCode.RENT_NOT_FOUND);
+	}
+}

@@ -12,7 +12,7 @@ import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackyweb.drivehistory.application.DriveHistoryService;
 import kernel360.trackyweb.drivehistory.domain.CarDriveHistory;
 import kernel360.trackyweb.drivehistory.domain.DriveHistory;
-import kernel360.trackyweb.drivehistory.domain.RentDriveHistory;
+import kernel360.trackyweb.drivehistory.domain.RentDriveHistroyWithDriveList;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,10 +23,10 @@ public class DriveHistoryController implements DriveHistoryApiDocs {
 	private final DriveHistoryService driveHistoryService;
 
 	@GetMapping("/history/rents")
-	public ApiResponse<List<RentDriveHistory>> findAllRentHistories(
+	public ApiResponse<List<RentDriveHistroyWithDriveList>> findAllRentHistories(
 		@RequestParam(required = false) String rentUuid
 	) {
-		List<RentDriveHistory> result = driveHistoryService.getAllRentHistories(rentUuid);
+		List<RentDriveHistroyWithDriveList> result = driveHistoryService.getAllRentHistories(rentUuid);
 		return ApiResponse.success(result);
 	}
 

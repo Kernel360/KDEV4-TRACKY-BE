@@ -16,6 +16,7 @@ import kernel360.trackyweb.drivehistory.domain.DriveList;
 import kernel360.trackyweb.drivehistory.domain.GpsData;
 import kernel360.trackyweb.drivehistory.domain.GpsPoint;
 import kernel360.trackyweb.drivehistory.domain.RentDriveHistory;
+import kernel360.trackyweb.drivehistory.domain.RentDriveHistroyWithDriveList;
 import kernel360.trackyweb.drivehistory.infrastructure.repository.DriveHistoryRepository;
 import kernel360.trackyweb.drivehistory.infrastructure.repository.GpsHistoryRepository;
 import kernel360.trackyweb.drivehistory.infrastructure.repository.RentHistoryRepository;
@@ -60,7 +61,7 @@ public class DriveHistoryService {
 		);
 	}
 
-	public List<RentDriveHistory> getAllRentHistories(String rentUuid) {
+	public List<RentDriveHistroyWithDriveList> getAllRentHistories(String rentUuid) {
 		// rentUuid가 null이거나 빈 문자열이면 전체 조회, 아니면 특정 UUID 검색
 		List<RentDriveHistory> rents = rentHistoryRepository
 			.findRentHistoriesByRentUuid((rentUuid == null || rentUuid.isEmpty()) ? null : rentUuid)
@@ -78,8 +79,7 @@ public class DriveHistoryService {
 				.collect(Collectors.toList());
 
 			// rent + drive 요약 리스트를 포함한 DTO 리턴
-			return RentDriveHistory.create(rentDto.rentUuid(), rentDto.renterName(), rentDto.mdn(), rentDto.rentStime(),
-				rentDto.rentEtime(), driveList);
+			return RentDriveHistroyWithDriveList.create(rentDto, driveList);
 		}).collect(Collectors.toList());
 	}
 
