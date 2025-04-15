@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import kernel360.trackycore.core.infrastructure.exception.ErrorCode;
 import kernel360.trackyweb.member.domain.entity.MemberEntity;
+import kernel360.trackyweb.member.domain.provider.MemberProvider;
 import kernel360.trackyweb.member.infrastructure.exception.MemberException;
-import kernel360.trackyweb.member.infrastructure.repository.MemberRepository;
 import kernel360.trackyweb.member.infrastructure.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MemberService {
 
-	private final MemberRepository memberRepository;
+	private final MemberProvider memberProvider;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenProvider jwtTokenProvider;
 
@@ -25,8 +25,7 @@ public class MemberService {
 	 */
 	public MemberEntity authenticate(String memberId, String pwd) {
 		log.info("Login attempt for memberId: {}", memberId);
-		MemberEntity member = memberRepository.findByMemberId(memberId)
-			.orElseThrow(() -> MemberException.sendError(ErrorCode.MEMBER_NOT_FOUND));
+		MemberEntity member = memberProvider.getLoginTarget(memberId);
 
 		if (!passwordEncoder.matches(pwd, member.getPwd())) {
 			throw MemberException.sendError(ErrorCode.MEMBER_WRONG_PWD);

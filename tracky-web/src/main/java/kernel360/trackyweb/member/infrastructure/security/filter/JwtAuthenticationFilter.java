@@ -30,20 +30,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	 * 유효한 토큰이면 SecurityContext에 인증 정보를 설정함.
 	 */
 	@Override
-	protected void doFilterInternal(HttpServletRequest request,
+	protected void doFilterInternal(
+		HttpServletRequest request,
 		HttpServletResponse response,
-		FilterChain filterChain)
-		throws ServletException, IOException {
+		FilterChain filterChain
+	) throws ServletException, IOException {
 
-		if (jwtValidation.checkSseEvent(request, response, filterChain)) {
+		if (checkSseEvent(request, response, filterChain)) {
 			return;
 		}
 
-		if (jwtValidation.checkAlbHealthCheck(request, response, filterChain)) {
+		if (checkAlbHealthCheck(request, response, filterChain)) {
 			return;
 		}
 
-		String token = jwtValidation.resolveToken(request);
+		String token = resolveToken(request);
 
 		if (jwtValidation.isValidToken(token)) {
 			String memberId = jwtTokenProvider.getMemberId(token);
@@ -63,4 +64,55 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		filterChain.doFilter(request, response);
 	}
+
+	/**
+	 * HTTP Authorization 헤더에서 "Bearer " 접두어를 제거하고 토큰만 반환.
+	 *
+	 * @param request HTTP 요청 객체
+	 * @return JWT 토큰 문자열 또는 null
+	 */
+	private String resolveToken(HttpServletRequest request) {
+		String bearer = request.getHeader("Authorization");
+
+		if (bearer != null && bearer.startsWith("Bearer ")) {
+			return bearer.substring(7);
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * SSE 요청은 토큰 없이 통과시킴
+	 * @param request
+	 * @return boolean
+	 */
+	private boolean checkSseEvent(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		FilterChain filterChain
+	) throws ServletException, IOException {
+		if (request.getRequestURI().startsWith("/events")) {
+			filterChain.doFilter(request, response);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * ALB HealthCheck 허용
+	 * @param request
+	 * @return boolean
+	 */
+	private boolean checkAlbHealthCheck(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		FilterChain filterChain
+	) throws ServletException, IOException {
+		if (request.getRequestURI().startsWith("/actuator")) {
+			filterChain.doFilter(request, response);
+			return true;
+		}
+		return false;
+	}
+
 }
