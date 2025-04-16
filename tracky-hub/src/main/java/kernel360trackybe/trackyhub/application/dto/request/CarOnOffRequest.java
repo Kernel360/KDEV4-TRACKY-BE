@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import kernel360.trackycore.core.common.entity.LocationEntity;
 import kernel360.trackycore.core.common.entity.vo.EmulatorInfo;
 import kernel360.trackycore.core.common.entity.vo.GpsInfo;
 import lombok.Getter;
@@ -18,7 +17,6 @@ public class CarOnOffRequest {
 	private String mdn;
 	private String gcd;
 	private EmulatorInfo emulatorInfo;
-
 	private GpsInfo gpsInfo;
 
 	@JsonFormat(pattern = "yyyyMMddHHmm")
@@ -26,18 +24,4 @@ public class CarOnOffRequest {
 
 	@JsonFormat(pattern = "yyyyMMddHHmm")
 	private LocalDateTime offTime; // 시동 Off 시간
-
-	// private String gcd;           // GPS 상태
-	// private int lat;             // GPS 위도
-	// private int lon;             // GPS 경도
-	// private int ang;           // 방향
-	// private int spd;           // 속도(km/h)
-	// private double sum;              // 누적 주행 거리(m)
-
-	public LocationEntity toLocationEntity() {
-		return LocationEntity.create(
-			this.gpsInfo.getLon(),
-			this.gpsInfo.getLat()
-		);
-	}
 }
