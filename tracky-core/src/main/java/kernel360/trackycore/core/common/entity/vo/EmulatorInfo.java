@@ -17,7 +17,7 @@ public class EmulatorInfo {
 		this.did = did;
 	}
 
-	public static EmulatorInfo create(String mdn) {
+	public static EmulatorInfo create() {
 		return new EmulatorInfo("A001", "6", "5", "1");
 	}
 }

@@ -1,4 +1,4 @@
-package kernel360trackybe.trackyhub.presentation.dto;
+package kernel360trackybe.trackyhub.application.dto.request;
 
 import java.time.LocalDateTime;
 import java.util.List;
