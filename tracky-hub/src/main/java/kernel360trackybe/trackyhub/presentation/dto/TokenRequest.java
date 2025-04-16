@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TokenRequest {
-
+	private String mdn;
 	private EmulatorInfo emulatorInfo;
 	private String dFWVer;
 }

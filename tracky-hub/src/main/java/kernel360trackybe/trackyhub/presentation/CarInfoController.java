@@ -27,27 +27,27 @@ public class CarInfoController {
 	public ApiResponse sendCycleInfo(@RequestBody CycleInfoRequest cycleInfoRequest) {
 
 		producerService.sendCycleInfo(cycleInfoRequest);
-		return new ApiResponse("000", "Success", cycleInfoRequest.getEmulatorInfo().getMdn());
+		return new ApiResponse("000", "Success", cycleInfoRequest.getMdn());
 	}
 
 	@PostMapping(value = "/on")
 	public ApiResponse sendCarStart(@RequestBody CarOnOffRequest carOnOffRequest) {
 
 		producerService.sendCarStart(carOnOffRequest);
-		return new ApiResponse("000", "Success", carOnOffRequest.getEmulatorInfo().getMdn());
+		return new ApiResponse("000", "Success", carOnOffRequest.getMdn());
 	}
 
 	@PostMapping(value = "/off")
 	public ApiResponse sendCarStop(@RequestBody CarOnOffRequest carOnOffRequest) {
 
 		producerService.sendCarStop(carOnOffRequest);
-		return new ApiResponse("000", "Success", carOnOffRequest.getEmulatorInfo().getMdn());
+		return new ApiResponse("000", "Success", carOnOffRequest.getMdn());
 	}
 
 	@PostMapping(value = "/token")
 	public ApiTokenResponse getToken(@RequestBody TokenRequest tokenRequest) {
 
 		String token = producerService.getToken();
-		return new ApiTokenResponse("000", "Success", tokenRequest.getEmulatorInfo().getMdn(), token, "4");
+		return new ApiTokenResponse("000", "Success", tokenRequest.getMdn(), token, "4");
 	}
 }
