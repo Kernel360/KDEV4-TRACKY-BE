@@ -1,26 +1,23 @@
 package kernel360trackybe.trackyhub.presentation.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import kernel360.trackycore.core.common.entity.vo.EmulatorInfo;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class CycleInfoRequest {
-	private String mdn;    // 차량 번호
-	private String tid;    // 터미널 아이디
-	private String mid;    // 제조사 아이디
-	private String pv;     // 패킷 버전
-	private String did;    // 디바이스 아이디
+	private EmulatorInfo emulatorInfo;
 
 	@JsonProperty("cCnt") // JSON 필드명과 객체 필드명이 cCnt로 일치하는데 매핑이 안돼서 설정함(왜지?)
 	private int cCnt;   // 주기 정보 개수

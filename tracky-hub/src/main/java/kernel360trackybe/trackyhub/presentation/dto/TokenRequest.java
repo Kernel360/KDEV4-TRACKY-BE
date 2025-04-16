@@ -1,5 +1,6 @@
 package kernel360trackybe.trackyhub.presentation.dto;
 
+import kernel360.trackycore.core.common.entity.vo.EmulatorInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,10 +10,6 @@ import lombok.Setter;
 @Setter
 public class TokenRequest {
 
-	private String mdn;
-	private String tid;
-	private String mid;
-	private String pv;
-	private String did;
+	private EmulatorInfo emulatorInfo;
 	private String dFWVer;
 }
