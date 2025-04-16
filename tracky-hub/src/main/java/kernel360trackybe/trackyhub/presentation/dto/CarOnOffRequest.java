@@ -15,12 +15,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CarOnOffRequest {
-	// private String mdn;           // 차량 식별 key
-	// private String tid;           // 차량관제 터미널 ID
-	// private String mid;           // 제조사 ID
-	// private String pv;            // 패킷 버전
-	// private String did;           // 디바이스 ID
-
+	private String mdn;
+	private String gcd;
 	private EmulatorInfo emulatorInfo;
 
 	private GpsInfo gpsInfo;

@@ -17,6 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class CycleInfoRequest {
+	private String mdn;
 	private EmulatorInfo emulatorInfo;
 
 	@JsonProperty("cCnt") // JSON 필드명과 객체 필드명이 cCnt로 일치하는데 매핑이 안돼서 설정함(왜지?)
