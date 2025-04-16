@@ -25,7 +25,7 @@ public class MemberService {
 
 		log.info("Login attempt for memberId: {}", memberId);
 
-		MemberEntity member = memberProvider.getLoginTarget(memberId);
+		MemberEntity member = memberProvider.getMember(memberId);
 
 		memberValidator.validatePassword(pwd, member);
 

@@ -14,7 +14,7 @@ public class MemberProvider {
 
 	private final MemberRepository memberRepository;
 
-	public MemberEntity getLoginTarget(String memberId) {
+	public MemberEntity getMember(String memberId) {
 		return memberRepository.findByMemberId(memberId)
 			.orElseThrow(() -> MemberException.sendError(ErrorCode.MEMBER_NOT_FOUND));
 	}
