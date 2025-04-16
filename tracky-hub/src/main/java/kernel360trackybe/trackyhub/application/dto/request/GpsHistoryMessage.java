@@ -1,10 +1,10 @@
-package kernel360trackybe.trackyhub.presentation.dto;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
+package kernel360trackybe.trackyhub.application.dto.request;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Data
 @AllArgsConstructor

@@ -1,20 +1,21 @@
 tasks.bootJar {
-	enabled = true
+    enabled = true
 }
 
 tasks.jar {
-	enabled = true
+    enabled = true
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
-	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.0'
 
-	implementation project(':tracky-core')
+    implementation project(':tracky-core')
 
-	runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }

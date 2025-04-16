@@ -5,10 +5,10 @@ import java.util.UUID;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+import kernel360trackybe.trackyhub.application.dto.request.CarOnOffRequest;
+import kernel360trackybe.trackyhub.application.dto.request.CycleInfoRequest;
+import kernel360trackybe.trackyhub.application.dto.request.GpsHistoryMessage;
 import kernel360trackybe.trackyhub.config.RabbitMQConfig;
-import kernel360trackybe.trackyhub.presentation.dto.CarOnOffRequest;
-import kernel360trackybe.trackyhub.presentation.dto.CycleInfoRequest;
-import kernel360trackybe.trackyhub.presentation.dto.GpsHistoryMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +43,7 @@ public class CarInfoProducerService {
 	 */
 	public void sendCycleInfo(CycleInfoRequest carInfo) {
 
-		GpsHistoryMessage gpsHistoryMessage = GpsHistoryMessage.from(carInfo.getEmulatorInfo().getMdn(),
+		GpsHistoryMessage gpsHistoryMessage = GpsHistoryMessage.from(carInfo.getMdn(),
 			carInfo.getOTime(),
 			carInfo.getCCnt(), carInfo.getCList());
 
