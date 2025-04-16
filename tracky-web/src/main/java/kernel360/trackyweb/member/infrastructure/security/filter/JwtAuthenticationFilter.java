@@ -15,14 +15,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kernel360.trackyweb.member.infrastructure.security.jwt.JwtTokenProvider;
-import kernel360.trackyweb.member.infrastructure.security.validation.JwtValidation;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtTokenProvider jwtTokenProvider;
-	private final JwtValidation jwtValidation;
 	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
 	/**
@@ -46,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		String token = resolveToken(request);
 
-		if (jwtValidation.isValidToken(token)) {
+		if (jwtTokenProvider.validateToken(token)) {
 			String memberId = jwtTokenProvider.getMemberId(token);
 			String role = jwtTokenProvider.getRole(token).toUpperCase();
 			String authority = role.startsWith("ROLE_") ? role : "ROLE_" + role;

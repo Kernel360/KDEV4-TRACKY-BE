@@ -23,7 +23,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import kernel360.trackyweb.member.infrastructure.security.filter.JwtAuthenticationFilter;
 import kernel360.trackyweb.member.infrastructure.security.jwt.JwtTokenProvider;
-import kernel360.trackyweb.member.infrastructure.security.validation.JwtValidation;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -33,7 +32,6 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
-	private final JwtValidation jwtValidation;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,7 +51,7 @@ public class SecurityConfig {
 				.requestMatchers("/actuator/**").permitAll() // ALB HealthCheck 허용
 			)
 			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtValidation),
+			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}

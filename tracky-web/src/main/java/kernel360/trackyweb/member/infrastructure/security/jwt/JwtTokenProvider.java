@@ -58,6 +58,8 @@ public class JwtTokenProvider {
 	 * 토큰의 유효성을 검사 (예: 만료, 변조 여부 등)
 	 */
 	public boolean validateToken(String token) {
+		if (token == null)
+			return false;
 		try {
 			parseClaims(token);
 			return true;
