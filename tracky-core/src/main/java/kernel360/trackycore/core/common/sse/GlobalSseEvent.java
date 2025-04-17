@@ -30,6 +30,6 @@ public class GlobalSseEvent {
 	}
 
 	public GlobalSseEvent sendEvent(SseEvent sseEvent) {
-		return new GlobalSseEvent(sseEvent.getEvent(), sseEvent.getMethod(), sseEvent.getMethod());
+		return new GlobalSseEvent(sseEvent.getEvent(), sseEvent.getMethod(), sseEvent.getMessage());
 	}
 }
