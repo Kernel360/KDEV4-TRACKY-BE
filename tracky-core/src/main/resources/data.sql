@@ -1,8 +1,8 @@
 INSERT INTO biz(biz_name, biz_reg_num, biz_admin, biz_phone_num, created_at)
-VALUES('jiwon_company', '012-34-56789', '구지원', '010-1234-5678', '2025-04-14 09:00:00');
+VALUES('jiwon_company', '012-34-56789', '구지원', '010-1234-5678', '2025-04-13 09:00:00');
 
-INSERT INTO member(biz_id, member_id, pwd, role, created_at)
-VALUES(1, 'jiwon0321', '$2a$10$0EOkcArMlrYPeHSBrrLVAetH2OdLfdEYlD1a5WA1.80RBI1Z8x7Ii', 'ADMIN', '2025-04-14 09:00:00');
+INSERT INTO member(biz_id, member_id, pwd, email, role, created_at)
+VALUES(1, 'jiwon0321', '$2a$10$0EOkcArMlrYPeHSBrrLVAetH2OdLfdEYlD1a5WA1.80RBI1Z8x7Ii', 'jiwon0321@gmail.com', 'ADMIN', '2025-04-14 09:00:00');
 
 INSERT INTO device(id, tid, mid, did, pv, created_at)
 VALUES(1, 'A001', '6', '1', '5', '2025-04-14 09:00:00');
