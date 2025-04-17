@@ -10,6 +10,7 @@ import kernel360trackybe.trackyhub.application.dto.request.CarOnOffRequest;
 import kernel360trackybe.trackyhub.application.dto.request.CycleInfoRequest;
 import kernel360trackybe.trackyhub.application.dto.request.TokenRequest;
 import kernel360trackybe.trackyhub.application.dto.response.ApiResponse;
+import kernel360trackybe.trackyhub.application.dto.response.MdnResponse;
 import kernel360trackybe.trackyhub.application.dto.response.TokenResponse;
 import kernel360trackybe.trackyhub.application.service.CarInfoProducerService;
 import lombok.RequiredArgsConstructor;
@@ -24,24 +25,24 @@ public class CarInfoController {
 	private final CarInfoProducerService producerService;
 
 	@PostMapping(value = "/cycle")
-	public ApiResponse<String> sendCycleInfo(@RequestBody CycleInfoRequest cycleInfoRequest) {
+	public ApiResponse<MdnResponse> sendCycleInfo(@RequestBody CycleInfoRequest cycleInfoRequest) {
 
 		producerService.sendCycleInfo(cycleInfoRequest);
-		return ApiResponse.success(cycleInfoRequest.mdn());
+		return ApiResponse.success(new MdnResponse(cycleInfoRequest.mdn()));
 	}
 
 	@PostMapping(value = "/on")
-	public ApiResponse<String> sendCarStart(@RequestBody CarOnOffRequest carOnOffRequest) {
+	public ApiResponse<MdnResponse> sendCarStart(@RequestBody CarOnOffRequest carOnOffRequest) {
 
 		producerService.sendCarStart(carOnOffRequest);
-		return ApiResponse.success(carOnOffRequest.mdn());
+		return ApiResponse.success(new MdnResponse(carOnOffRequest.mdn()));
 	}
 
 	@PostMapping(value = "/off")
-	public ApiResponse<String> sendCarStop(@RequestBody CarOnOffRequest carOnOffRequest) {
+	public ApiResponse<MdnResponse> sendCarStop(@RequestBody CarOnOffRequest carOnOffRequest) {
 
 		producerService.sendCarStop(carOnOffRequest);
-		return ApiResponse.success(carOnOffRequest.mdn());
+		return ApiResponse.success(new MdnResponse(carOnOffRequest.mdn()));
 	}
 
 	@PostMapping(value = "/token")
