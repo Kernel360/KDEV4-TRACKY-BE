@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import kernel360.trackycore.core.common.entity.vo.EmulatorInfo;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import lombok.ToString;
 @ToString
 public class CycleInfoRequest {
 	private String mdn;
+	@JsonUnwrapped
 	private EmulatorInfo emulatorInfo;
 
 	@JsonProperty("cCnt") // JSON 필드명과 객체 필드명이 cCnt로 일치하는데 매핑이 안돼서 설정함(왜지?)
