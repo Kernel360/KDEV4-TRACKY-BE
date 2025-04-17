@@ -1,18 +1,22 @@
 package kernel360trackybe.trackyhub.application.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import kernel360.trackycore.core.common.entity.vo.GpsInfo;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-public class CycleGpsRequest {
-	private int sec;    // 발생시간 '초'
-	private String gcd;    // GPS 상태
-	@JsonUnwrapped
-	private GpsInfo gpsInfo;
+public record CycleGpsRequest(int sec, String gcd, GpsInfo gpsInfo) {
+
+	@JsonCreator
+	public CycleGpsRequest(
+		@JsonProperty int sec,
+		@JsonProperty String gcd,
+		@JsonProperty int lat,
+		@JsonProperty int lon,
+		@JsonProperty int ang,
+		@JsonProperty int spd,
+		@JsonProperty double sum
+	) {
+		this(sec, gcd, GpsInfo.create(lat, lon, ang, spd, sum));
+	}
 }

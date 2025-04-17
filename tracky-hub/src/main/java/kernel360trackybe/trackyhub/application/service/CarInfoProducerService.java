@@ -43,9 +43,9 @@ public class CarInfoProducerService {
 	 */
 	public void sendCycleInfo(CycleInfoRequest carInfo) {
 
-		GpsHistoryMessage gpsHistoryMessage = GpsHistoryMessage.from(carInfo.getMdn(),
-			carInfo.getOTime(),
-			carInfo.getCCnt(), carInfo.getCList());
+		GpsHistoryMessage gpsHistoryMessage = GpsHistoryMessage.from(carInfo.mdn(),
+			carInfo.oTime(),
+			carInfo.cCnt(), carInfo.cList());
 
 		log.info("GPS 전송:{}", gpsHistoryMessage.toString());
 		rabbitTemplate.convertAndSend(
