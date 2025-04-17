@@ -49,6 +49,7 @@ public class SecurityConfig {
 				.requestMatchers("/api/**").authenticated()  // 나머지 API는 인증 필요
 				.requestMatchers("/events/**").permitAll() // sse 관련
 				.requestMatchers("/actuator/**").permitAll() // ALB HealthCheck 허용
+				.requestMatchers("/swagger.html").permitAll() // ALB HealthCheck 허용
 			)
 			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
