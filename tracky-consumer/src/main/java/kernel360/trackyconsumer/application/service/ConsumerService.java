@@ -15,7 +15,6 @@ import kernel360.trackycore.core.common.entity.CarEntity;
 import kernel360.trackycore.core.common.entity.DriveEntity;
 import kernel360.trackycore.core.common.entity.GpsHistoryEntity;
 import kernel360.trackycore.core.common.entity.LocationEntity;
-import kernel360.trackycore.core.common.entity.RentEntity;
 import kernel360.trackycore.core.common.provider.CarProvider;
 import kernel360.trackycore.core.common.provider.GpsHistoryProvider;
 import kernel360.trackycore.core.common.provider.LocationProvider;
@@ -68,9 +67,7 @@ public class ConsumerService {
 
 		CarEntity car = carProvider.findByMdn(carOnOffRequest.mdn());
 
-		RentEntity rent = rentProvider.findByCarAndTime(car, carOnOffRequest.onTime());
-
-		DriveEntity drive = DriveEntity.create(car, rent, location,
+		DriveEntity drive = DriveEntity.create(car, location,
 			carOnOffRequest.onTime());
 
 		driveProvider.save(drive);
