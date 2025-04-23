@@ -46,6 +46,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.requestMatchers("/api/signup").permitAll()
 				.requestMatchers("/api/login").permitAll()   // 로그인은 인증 없이 허용
+				.requestMatchers(HttpMethod.GET, "/api/notices").permitAll() // 공지사항 목록은 인증 없이 허용
 				.requestMatchers("/api/**").authenticated()  // 나머지 API는 인증 필요
 				.requestMatchers("/events/**").permitAll() // sse 관련
 				.requestMatchers("/actuator/**").permitAll() // ALB HealthCheck 허용

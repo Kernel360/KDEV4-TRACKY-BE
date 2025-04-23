@@ -47,6 +47,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			return;
 		}
 
+		if (checkNotice(request, response, filterChain)) {
+			return;
+		}
+
 		String token = resolveToken(request);
 
 		if (jwtTokenProvider.validateToken(token)) {
@@ -116,6 +120,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain
 	) throws ServletException, IOException {
 		if (request.getRequestURI().startsWith("/actuator")) {
+			filterChain.doFilter(request, response);
+			return true;
+		}
+		return false;
+	}
+
+	private boolean checkNotice(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		FilterChain filterChain
+	) throws ServletException, IOException {
+		if (request.getRequestURI().startsWith("/api/notices") && 
+        request.getMethod().equals("GET")) {
 			filterChain.doFilter(request, response);
 			return true;
 		}
