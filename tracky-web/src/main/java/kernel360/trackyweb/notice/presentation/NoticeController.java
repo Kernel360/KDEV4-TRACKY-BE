@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackyweb.notice.application.NoticeService;
-import kernel360.trackyweb.notice.application.dto.request.NoticeRequest;
+import kernel360.trackyweb.notice.application.dto.request.NoticeCreateUpdateRequest;
 import kernel360.trackyweb.notice.application.dto.response.NoticeDetailResponse;
 import kernel360.trackyweb.sign.infrastructure.security.principal.MemberPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +31,16 @@ public class NoticeController {
 
 	@PostMapping
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ApiResponse<NoticeDetailResponse> register(@RequestBody NoticeRequest noticeRequest,
+	public ApiResponse<NoticeDetailResponse> register(@RequestBody NoticeCreateUpdateRequest noticeCreateUpdateRequest,
 		@AuthenticationPrincipal MemberPrincipal memberPrincipal) {
-		return noticeService.register(memberPrincipal.memberId(), noticeRequest);
+		return noticeService.register(memberPrincipal.memberId(), noticeCreateUpdateRequest);
 	}
 
 	@PatchMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ApiResponse<NoticeDetailResponse> update(@PathVariable Long id, @RequestBody NoticeRequest noticeRequest) {
-		return noticeService.update(id, noticeRequest);
+	public ApiResponse<NoticeDetailResponse> update(@PathVariable Long id,
+		@RequestBody NoticeCreateUpdateRequest noticeCreateUpdateRequest) {
+		return noticeService.update(id, noticeCreateUpdateRequest);
 	}
 
 	@DeleteMapping("/{id}")

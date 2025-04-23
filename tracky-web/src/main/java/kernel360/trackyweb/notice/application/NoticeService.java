@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional;
 import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackycore.core.domain.entity.MemberEntity;
 import kernel360.trackycore.core.domain.entity.NoticeEntity;
-import kernel360.trackyweb.notice.application.dto.request.NoticeRequest;
+import kernel360.trackyweb.notice.application.dto.request.NoticeCreateUpdateRequest;
 import kernel360.trackyweb.notice.application.dto.response.NoticeDetailResponse;
 import kernel360.trackyweb.notice.domain.provider.NoticeProvider;
 import kernel360.trackyweb.sign.domain.provider.MemberProvider;
@@ -21,15 +21,16 @@ public class NoticeService {
 	private final MemberProvider memberProvider;
 
 	@Transactional
-	public ApiResponse<NoticeDetailResponse> register(String memberId, NoticeRequest noticeRequest) {
+	public ApiResponse<NoticeDetailResponse> register(String memberId,
+		NoticeCreateUpdateRequest noticeCreateUpdateRequest) {
 
 		MemberEntity member = memberProvider.getMember(memberId);
 
 		NoticeEntity notice = NoticeEntity.create(
 			member,
-			noticeRequest.title(),
-			noticeRequest.content(),
-			noticeRequest.isImportant()
+			noticeCreateUpdateRequest.title(),
+			noticeCreateUpdateRequest.content(),
+			noticeCreateUpdateRequest.isImportant()
 		);
 
 		NoticeEntity savedNotice = noticeProvider.save(notice);
@@ -39,10 +40,11 @@ public class NoticeService {
 	}
 
 	@Transactional
-	public ApiResponse<NoticeDetailResponse> update(Long id, NoticeRequest noticeRequest) {
+	public ApiResponse<NoticeDetailResponse> update(Long id, NoticeCreateUpdateRequest noticeCreateUpdateRequest) {
 
 		NoticeEntity notice = noticeProvider.getById(id);
-		notice.update(noticeRequest.title(), noticeRequest.content(), noticeRequest.isImportant());
+		notice.update(noticeCreateUpdateRequest.title(), noticeCreateUpdateRequest.content(),
+			noticeCreateUpdateRequest.isImportant());
 
 		NoticeDetailResponse response = NoticeDetailResponse.from(notice);
 
