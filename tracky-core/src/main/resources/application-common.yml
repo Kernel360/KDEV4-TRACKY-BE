@@ -7,11 +7,19 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: ConsumerHikariCP
+      maximum-pool-size: 60
+      minimum-idle: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 600000
+      leak-detection-threshold: 10000
 
   jpa:
     hibernate:
       ddl-auto: none
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     properties:
       hibernate.globally_quoted_identifiers: true
       hibernate.format_sql: true
@@ -30,6 +38,3 @@ management:
     web:
       exposure:
         include: prometheus
-  endpoint:
-    prometheus:
-      enabled: true

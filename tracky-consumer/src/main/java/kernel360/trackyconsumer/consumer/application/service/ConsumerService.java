@@ -38,25 +38,15 @@ public class ConsumerService {
 	@Transactional
 	public void receiveCycleInfo(GpsHistoryMessage request) {
 
-		// 처리 로직
 		List<CycleGpsRequest> cycleGpsRequestList = request.cList();
 
 		CarEntity car = carProvider.findByMdn(request.mdn());
 
 		DriveEntity drive = driveProvider.getDrive(car, request.oTime());
 
-		// GPS 쪼개서 정보 저장
-		for (int i = 0; i < request.cCnt(); i++) {
-			saveCycleInfo(drive, request.oTime(), cycleGpsRequestList.get(i).gpsInfo().getSum(),
-				cycleGpsRequestList.get(i));
-		}
-	}
+		List<GpsHistoryEntity> gpsHistoryList = toGpsHistoryList(cycleGpsRequestList, drive, request.oTime());
 
-	private void saveCycleInfo(DriveEntity drive, LocalDateTime oTime, double sum, CycleGpsRequest cycleGpsRequest) {
-
-		GpsHistoryEntity gpsHistoryEntity = cycleGpsRequest.toGpsHistoryEntity(drive, oTime, sum);
-
-		gpsHistoryProvider.save((gpsHistoryEntity));
+		gpsHistoryProvider.saveAll(gpsHistoryList);
 	}
 
 	@Transactional
@@ -88,5 +78,13 @@ public class ConsumerService {
 
 		LocationEntity location = drive.getLocation();
 		location.updateEndLocation(carOnOffRequest.gpsInfo().getLat(), carOnOffRequest.gpsInfo().getLon());
+	}
+
+	private List<GpsHistoryEntity> toGpsHistoryList(List<CycleGpsRequest> cycleGpsRequestList, DriveEntity drive,
+		LocalDateTime oTime) {
+
+		return cycleGpsRequestList.stream().map(request -> {
+			return request.toGpsHistoryEntity(drive, oTime, request.gpsInfo().getSum());
+		}).toList();
 	}
 }
