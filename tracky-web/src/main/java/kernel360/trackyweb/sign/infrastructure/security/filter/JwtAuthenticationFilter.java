@@ -131,8 +131,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		HttpServletResponse response,
 		FilterChain filterChain
 	) throws ServletException, IOException {
-		if (request.getRequestURI().startsWith("/api/notices") && 
-        request.getMethod().equals("GET")) {
+		if ((request.getRequestURI().equals("/api/notices")) &&
+			request.getMethod().equals("GET")) {
 			filterChain.doFilter(request, response);
 			return true;
 		}
