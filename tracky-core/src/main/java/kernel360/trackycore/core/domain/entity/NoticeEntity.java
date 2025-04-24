@@ -2,6 +2,7 @@ package kernel360.trackycore.core.domain.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,18 +24,23 @@ public class NoticeEntity extends DateBaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false)
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
+	@JoinColumn(name = "member_id", nullable = false)
 	private MemberEntity member;
 
+	@Column(name = "title", nullable = false)
 	private String title;
 
+	@Column(name = "content", nullable = false, columnDefinition = "TEXT")
 	private String content;
 
+	@Column(name = "is_important", nullable = false)
 	private boolean isImportant;
 
+	@Column(name = "deleted_at")
 	private LocalDateTime deletedAt;
 
 	private NoticeEntity(MemberEntity member, String title, String content, boolean isImportant) {
