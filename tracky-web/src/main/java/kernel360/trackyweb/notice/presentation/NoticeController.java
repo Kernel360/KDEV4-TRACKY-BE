@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackyweb.notice.application.NoticeService;
 import kernel360.trackyweb.notice.application.dto.request.NoticeCreateUpdateRequest;
+import kernel360.trackyweb.notice.application.dto.request.NoticeSearchByFilterRequest;
 import kernel360.trackyweb.notice.application.dto.response.NoticeDetailResponse;
+import kernel360.trackyweb.notice.application.dto.response.NoticeResponse;
 import kernel360.trackyweb.sign.infrastructure.security.principal.MemberPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,13 +53,16 @@ public class NoticeController {
 		return noticeService.delete(id);
 	}
 
-	@GetMapping
-	public ApiResponse<List<NoticeDetailResponse>> getAll() {
-		return noticeService.getAll();
-	}
-
 	@GetMapping("/search")
 	public ApiResponse<List<NoticeDetailResponse>> search(@RequestParam String keyword) {
 		return noticeService.search(keyword);
+	}
+
+	@GetMapping
+	public ApiResponse<List<NoticeResponse>> getAllBySearchFilter(
+		@ModelAttribute NoticeSearchByFilterRequest noticeSearchByFilterRequest
+	) {
+		log.info("입력값:{}", noticeSearchByFilterRequest);
+		return noticeService.getAllBySearchFilter(noticeSearchByFilterRequest);
 	}
 }
