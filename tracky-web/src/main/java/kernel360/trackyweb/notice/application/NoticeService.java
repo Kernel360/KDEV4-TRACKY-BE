@@ -75,4 +75,15 @@ public class NoticeService {
 		NoticeDetailResponse response = NoticeDetailResponse.from(updatedNotice);
 		return ApiResponse.success(response);
 	}
+
+	@Transactional
+	public ApiResponse<List<NoticeDetailResponse>> search(String keyword) {
+		List<NoticeEntity> notices = noticeProvider.search(keyword);
+
+		List<NoticeDetailResponse> responses = notices.stream()
+			.map(NoticeDetailResponse::from)
+			.toList();
+
+		return ApiResponse.success(responses);
+	}
 }

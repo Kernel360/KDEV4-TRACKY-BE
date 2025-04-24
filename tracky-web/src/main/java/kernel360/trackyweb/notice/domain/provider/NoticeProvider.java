@@ -30,4 +30,8 @@ public class NoticeProvider {
 		return noticeDomainRepository.findById(id)
 			.orElseThrow(() -> GlobalException.throwError(ErrorCode.NOTICE_NOT_FOUND));
 	}
+
+	public List<NoticeEntity> search(String keyword) {
+		return noticeDomainRepository.findByTitleOrContent(keyword);
+	}
 }

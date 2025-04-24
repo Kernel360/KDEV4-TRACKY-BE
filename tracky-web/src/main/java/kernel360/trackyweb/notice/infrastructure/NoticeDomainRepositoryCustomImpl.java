@@ -25,4 +25,17 @@ public class NoticeDomainRepositoryCustomImpl implements NoticeDomainRepositoryC
 			.where(notice.deletedAt.isNull())
 			.fetch();
 	}
+
+	@Override
+	public List<NoticeEntity> findByTitleOrContent(String keyword) {
+		return queryFactory
+			.select(notice)
+			.from(notice)
+			.where(
+				notice.title.containsIgnoreCase(keyword)
+					.or(notice.content.containsIgnoreCase(keyword))
+					.and(notice.deletedAt.isNull())
+			)
+			.fetch();
+	}
 }
