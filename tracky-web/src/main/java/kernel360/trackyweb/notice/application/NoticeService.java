@@ -43,7 +43,7 @@ public class NoticeService {
 	@Transactional
 	public ApiResponse<NoticeDetailResponse> update(Long id, NoticeUpdateRequest noticeUpdateRequest) {
 
-		NoticeEntity notice = noticeProvider.getById(id);
+		NoticeEntity notice = noticeProvider.get(id);
 		notice.update(noticeUpdateRequest.title(), noticeUpdateRequest.content(),
 			noticeUpdateRequest.isImportant());
 
@@ -67,13 +67,11 @@ public class NoticeService {
 	@Transactional
 	public ApiResponse<NoticeDetailResponse> delete(Long id) {
 
-		NoticeEntity notice = noticeProvider.getById(id);
+		NoticeEntity notice = noticeProvider.get(id);
 
 		notice.softDelete();
 
-		NoticeEntity updatedNotice = noticeProvider.save(notice);
-
-		NoticeDetailResponse response = NoticeDetailResponse.from(updatedNotice);
+		NoticeDetailResponse response = NoticeDetailResponse.from(notice);
 		return ApiResponse.success(response);
 	}
 }

@@ -46,7 +46,6 @@ public class NoticeEntity extends DateBaseEntity {
 
 	public static NoticeEntity create(MemberEntity member, String title, String content, boolean isImportant) {
 		NoticeEntity notice = new NoticeEntity(member, title, content, isImportant);
-		notice.onCreate();
 		return notice;
 	}
 
@@ -54,7 +53,6 @@ public class NoticeEntity extends DateBaseEntity {
 		this.title = title;
 		this.content = content;
 		this.isImportant = isImportant;
-		this.onUpdate();
 	}
 
 	public void softDelete() {

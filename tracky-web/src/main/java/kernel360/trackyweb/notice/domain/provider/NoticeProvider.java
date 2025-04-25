@@ -26,7 +26,7 @@ public class NoticeProvider {
 		return noticeDomainRepository.findAllByIsDeletedFalse();
 	}
 
-	public NoticeEntity getById(Long id) {
+	public NoticeEntity get(Long id) {
 		return noticeDomainRepository.findById(id)
 			.orElseThrow(() -> GlobalException.throwError(ErrorCode.NOTICE_NOT_FOUND));
 	}
