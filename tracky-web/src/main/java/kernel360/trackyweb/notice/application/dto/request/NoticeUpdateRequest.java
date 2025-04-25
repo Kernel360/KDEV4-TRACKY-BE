@@ -1,11 +1,11 @@
 package kernel360.trackyweb.notice.application.dto.request;
 
-public record NoticeCreateUpdateRequest(
+public record NoticeUpdateRequest(
 	String title,
 	String content,
 	boolean isImportant
 ) {
-	public NoticeCreateUpdateRequest(
+	public NoticeUpdateRequest(
 		String title, String content, boolean isImportant
 	) {
 		this.title = title;

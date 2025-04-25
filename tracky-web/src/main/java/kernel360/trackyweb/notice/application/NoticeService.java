@@ -8,29 +8,30 @@ import jakarta.transaction.Transactional;
 import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackycore.core.domain.entity.MemberEntity;
 import kernel360.trackycore.core.domain.entity.NoticeEntity;
-import kernel360.trackyweb.notice.application.dto.request.NoticeCreateUpdateRequest;
+import kernel360.trackyweb.notice.application.dto.request.NoticeCreateRequest;
+import kernel360.trackyweb.notice.application.dto.request.NoticeUpdateRequest;
 import kernel360.trackyweb.notice.application.dto.response.NoticeDetailResponse;
 import kernel360.trackyweb.notice.domain.provider.NoticeProvider;
 import kernel360.trackyweb.sign.domain.provider.MemberProvider;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NoticeService {
 	private final NoticeProvider noticeProvider;
 	private final MemberProvider memberProvider;
 
 	@Transactional
 	public ApiResponse<NoticeDetailResponse> register(String memberId,
-		NoticeCreateUpdateRequest noticeCreateUpdateRequest) {
+		NoticeCreateRequest noticeCreateRequest) {
 
 		MemberEntity member = memberProvider.getMember(memberId);
 
 		NoticeEntity notice = NoticeEntity.create(
 			member,
-			noticeCreateUpdateRequest.title(),
-			noticeCreateUpdateRequest.content(),
-			noticeCreateUpdateRequest.isImportant()
+			noticeCreateRequest.title(),
+			noticeCreateRequest.content(),
+			noticeCreateRequest.isImportant()
 		);
 
 		NoticeEntity savedNotice = noticeProvider.save(notice);
@@ -40,11 +41,11 @@ public class NoticeService {
 	}
 
 	@Transactional
-	public ApiResponse<NoticeDetailResponse> update(Long id, NoticeCreateUpdateRequest noticeCreateUpdateRequest) {
+	public ApiResponse<NoticeDetailResponse> update(Long id, NoticeUpdateRequest noticeUpdateRequest) {
 
 		NoticeEntity notice = noticeProvider.getById(id);
-		notice.update(noticeCreateUpdateRequest.title(), noticeCreateUpdateRequest.content(),
-			noticeCreateUpdateRequest.isImportant());
+		notice.update(noticeUpdateRequest.title(), noticeUpdateRequest.content(),
+			noticeUpdateRequest.isImportant());
 
 		NoticeDetailResponse response = NoticeDetailResponse.from(notice);
 
