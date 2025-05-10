@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
 import org.springframework.stereotype.Component;
 
 import kernel360.trackycore.core.common.exception.ErrorCode;
@@ -60,5 +61,9 @@ public class DailyStatisticProvider {
 
 	public List<Integer> getDailyDriveCount(String bizUuid) {
 		return dailyStatisticDomainRepository.findDriveCountByBizUuid(bizUuid);
+	}
+
+	public List<GraphsResponse.CarCount> getCarCountWithBizName() {
+		return dailyStatisticDomainRepository.getCarCountAndBizName();
 	}
 }

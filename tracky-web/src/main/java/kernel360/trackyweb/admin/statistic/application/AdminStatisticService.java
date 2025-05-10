@@ -3,6 +3,11 @@ package kernel360.trackyweb.admin.statistic.application;
 import java.time.LocalDate;
 import java.util.List;
 
+import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
+import kernel360.trackyweb.admin.statistic.application.dto.response.HourlyGraphResponse;
+import kernel360.trackyweb.statistic.domain.provider.DailyStatisticProvider;
+import kernel360.trackyweb.statistic.domain.provider.MonthlyStatisticProvider;
+import kernel360.trackyweb.timedistance.domain.provider.TimeDistanceDomainProvider;
 import org.springframework.stereotype.Service;
 
 import kernel360.trackycore.core.common.api.ApiResponse;
@@ -20,6 +25,9 @@ public class AdminStatisticService {
 
 	private final AdminStatisticProvider adminStatisticProvider;
 	private final BizDomainProvider bizDomainProvider;
+	private final TimeDistanceDomainProvider timeDistanceDomainProvider;
+	private final DailyStatisticProvider dailyStatisticProvider;
+	private final MonthlyStatisticProvider monthlyStatisticProvider;
 
 	public ApiResponse<List<AdminBizListResponse>> getAdminBizList(LocalDate selectedDate) {
 
@@ -41,5 +49,19 @@ public class AdminStatisticService {
 			bizId, adminStatisticRequest.selectedDate());
 
 		return ApiResponse.success(bizStat);
+	}
+
+    public ApiResponse<List<HourlyGraphResponse>> getHourlyGraph() {
+		return ApiResponse.success(HourlyGraphResponse.toResultList(timeDistanceDomainProvider.getYesterdayData()));
+    }
+
+	public ApiResponse<GraphsResponse> getGraphs() {
+		List<GraphsResponse.CarCount> carCountWithBizName = dailyStatisticProvider.getCarCountWithBizName();
+		List<GraphsResponse.OperationRate> operationRateWithBizName = dailyStatisticProvider.getOperationRatesAvgWithBizName();
+		List<GraphsResponse.NonOperatedCar> nonOperatedCarWithBizName = monthlyStatisticProvider.getNonOperatedCarWithBizName();
+		List<GraphsResponse.DriveCount> monthlyDriveCount = monthlyStatisticProvider.getDriveCount();
+
+		return ApiResponse.success(GraphsResponse.toResponse(
+				carCountWithBizName, operationRateWithBizName, nonOperatedCarWithBizName, monthlyDriveCount));
 	}
 }

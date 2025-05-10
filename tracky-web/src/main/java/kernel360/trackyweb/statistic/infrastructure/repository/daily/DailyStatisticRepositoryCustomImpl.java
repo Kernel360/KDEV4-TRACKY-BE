@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.querydsl.jpa.JPAExpressions;
+import kernel360.trackycore.core.domain.entity.QDailyStatisticEntity;
+import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
@@ -25,119 +28,144 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DailyStatisticRepositoryCustomImpl implements DailyStatisticRepositoryCustom {
 
-	private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-	//말일의 total car count 값
-	@Override
-	public List<TotalCarCount> getLastTotalCarCount(LocalDate targetDate) {
-		return queryFactory
-			.select(Projections.constructor(
-				TotalCarCount.class,
-				dailyStatisticEntity.bizId,
-				dailyStatisticEntity.totalCarCount
-			))
-			.from(dailyStatisticEntity)
-			.orderBy(dailyStatisticEntity.date.desc())
-			.groupBy(dailyStatisticEntity.bizId)
-			.fetch();
-	}
+    //말일의 total car count 값
+    @Override
+    public List<TotalCarCount> getLastTotalCarCount(LocalDate targetDate) {
+        return queryFactory
+                .select(Projections.constructor(
+                        TotalCarCount.class,
+                        dailyStatisticEntity.bizId,
+                        dailyStatisticEntity.totalCarCount
+                ))
+                .from(dailyStatisticEntity)
+                .orderBy(dailyStatisticEntity.date.desc())
+                .groupBy(dailyStatisticEntity.bizId)
+                .fetch();
+    }
 
-	//차량 가동률의 평균
-	@Override
-	public List<OperationRate> findAverageOperationRate(LocalDate targetDate) {
-		LocalDate firstDay = targetDate.withDayOfMonth(1);
+    //차량 가동률의 평균
+    @Override
+    public List<OperationRate> findAverageOperationRate(LocalDate targetDate) {
+        LocalDate firstDay = targetDate.withDayOfMonth(1);
 
-		return queryFactory
-			.select(Projections.constructor(
-				OperationRate.class,
-				dailyStatisticEntity.bizId,
-				dailyStatisticEntity.avgOperationRate.avg()
-			))
-			.from(dailyStatisticEntity)
-			.where(dailyStatisticEntity.date.between(firstDay, targetDate))
-			.groupBy(dailyStatisticEntity.bizId)
-			.fetch();
-	}
+        return queryFactory
+                .select(Projections.constructor(
+                        OperationRate.class,
+                        dailyStatisticEntity.bizId,
+                        dailyStatisticEntity.avgOperationRate.avg()
+                ))
+                .from(dailyStatisticEntity)
+                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
+                .groupBy(dailyStatisticEntity.bizId)
+                .fetch();
+    }
 
-	//차량 운행 횟수의 총 합계
-	@Override
-	public List<OperationCount> findSumOperationCount(LocalDate targetDate) {
-		LocalDate firstDay = targetDate.withDayOfMonth(1);
+    //차량 운행 횟수의 총 합계
+    @Override
+    public List<OperationCount> findSumOperationCount(LocalDate targetDate) {
+        LocalDate firstDay = targetDate.withDayOfMonth(1);
 
-		return queryFactory
-			.select(Projections.constructor(
-				OperationCount.class,
-				dailyStatisticEntity.bizId,
-				dailyStatisticEntity.dailyDriveCount.sum()
-			))
-			.from(dailyStatisticEntity)
-			.where(dailyStatisticEntity.date.between(firstDay, targetDate))
-			.groupBy(dailyStatisticEntity.bizId)
-			.fetch();
-	}
+        return queryFactory
+                .select(Projections.constructor(
+                        OperationCount.class,
+                        dailyStatisticEntity.bizId,
+                        dailyStatisticEntity.dailyDriveCount.sum()
+                ))
+                .from(dailyStatisticEntity)
+                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
+                .groupBy(dailyStatisticEntity.bizId)
+                .fetch();
+    }
 
-	//차량 운행 시간의 총 합계
-	@Override
-	public List<OperationTime> findSumOperationTime(LocalDate targetDate) {
-		LocalDate firstDay = targetDate.withDayOfMonth(1);
+    //차량 운행 시간의 총 합계
+    @Override
+    public List<OperationTime> findSumOperationTime(LocalDate targetDate) {
+        LocalDate firstDay = targetDate.withDayOfMonth(1);
 
-		return queryFactory
-			.select(Projections.constructor(
-				OperationTime.class,
-				dailyStatisticEntity.bizId,
-				dailyStatisticEntity.dailyDriveSec.sum()
-			))
-			.from(dailyStatisticEntity)
-			.where(dailyStatisticEntity.date.between(firstDay, targetDate))
-			.groupBy(dailyStatisticEntity.bizId)
-			.fetch();
-	}
+        return queryFactory
+                .select(Projections.constructor(
+                        OperationTime.class,
+                        dailyStatisticEntity.bizId,
+                        dailyStatisticEntity.dailyDriveSec.sum()
+                ))
+                .from(dailyStatisticEntity)
+                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
+                .groupBy(dailyStatisticEntity.bizId)
+                .fetch();
+    }
 
-	//차량 운행 거리의 총 합계
-	@Override
-	public List<OperationDistance> findSumOperationDistance(LocalDate targetDate) {
-		LocalDate firstDay = targetDate.withDayOfMonth(1);
+    //차량 운행 거리의 총 합계
+    @Override
+    public List<OperationDistance> findSumOperationDistance(LocalDate targetDate) {
+        LocalDate firstDay = targetDate.withDayOfMonth(1);
 
-		return queryFactory
-			.select(Projections.constructor(
-				OperationDistance.class,
-				dailyStatisticEntity.bizId,
-				dailyStatisticEntity.dailyDriveDistance.sum()
-			))
-			.from(dailyStatisticEntity)
-			.where(dailyStatisticEntity.date.between(firstDay, targetDate))
-			.groupBy(dailyStatisticEntity.bizId)
-			.fetch();
-	}
+        return queryFactory
+                .select(Projections.constructor(
+                        OperationDistance.class,
+                        dailyStatisticEntity.bizId,
+                        dailyStatisticEntity.dailyDriveDistance.sum()
+                ))
+                .from(dailyStatisticEntity)
+                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
+                .groupBy(dailyStatisticEntity.bizId)
+                .fetch();
+    }
 
-	@Override
-	public List<Integer> findDriveCountByBizUuid(String bizUuid) {
-		LocalDate yesterday = LocalDate.now().minusDays(1);
-		LocalDate startOfMonth = yesterday.withDayOfMonth(1);
+    @Override
+    public List<Integer> findDriveCountByBizUuid(String bizUuid) {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDate startOfMonth = yesterday.withDayOfMonth(1);
 
-		// 1. DB에서 실제 데이터 조회
-		Map<LocalDate, Integer> driveCountMap = queryFactory
-			.select(
-				dailyStatisticEntity.date,
-				dailyStatisticEntity.dailyDriveCount
-			)
-			.from(dailyStatisticEntity)
-			.where(
-				dailyStatisticEntity.biz.bizUuid.eq(bizUuid),
-				dailyStatisticEntity.date.between(startOfMonth, yesterday)
-			)
-			.fetch()
-			.stream()
-			.collect(Collectors.toMap(
-				tuple -> tuple.get(dailyStatisticEntity.date),
-				tuple -> tuple.get(dailyStatisticEntity.dailyDriveCount)
-			));
+        // 1. DB에서 실제 데이터 조회
+        Map<LocalDate, Integer> driveCountMap = queryFactory
+                .select(
+                        dailyStatisticEntity.date,
+                        dailyStatisticEntity.dailyDriveCount
+                )
+                .from(dailyStatisticEntity)
+                .where(
+                        dailyStatisticEntity.biz.bizUuid.eq(bizUuid),
+                        dailyStatisticEntity.date.between(startOfMonth, yesterday)
+                )
+                .fetch()
+                .stream()
+                .collect(Collectors.toMap(
+                        tuple -> tuple.get(dailyStatisticEntity.date),
+                        tuple -> tuple.get(dailyStatisticEntity.dailyDriveCount)
+                ));
 
-		// 2. 결과 리스트 생성 (날짜 순서대로)
-		List<Integer> result = startOfMonth.datesUntil(yesterday.plusDays(1))
-			.map(date -> driveCountMap.getOrDefault(date, 0))
-			.collect(Collectors.toList());
+        // 2. 결과 리스트 생성 (날짜 순서대로)
+        List<Integer> result = startOfMonth.datesUntil(yesterday.plusDays(1))
+                .map(date -> driveCountMap.getOrDefault(date, 0))
+                .collect(Collectors.toList());
 
-		return result;
-	}
+        return result;
+    }
+
+    @Override
+    public List<GraphsResponse.CarCount> getCarCountAndBizName() {
+        QDailyStatisticEntity sub = new QDailyStatisticEntity("sub");
+
+        return queryFactory
+                .select(Projections.constructor(
+                        GraphsResponse.CarCount.class,
+                        dailyStatisticEntity.biz.bizName,
+                        dailyStatisticEntity.totalCarCount
+                ))
+                .from(dailyStatisticEntity)
+                .where(
+                        dailyStatisticEntity.date.eq(
+                                JPAExpressions
+                                        .select(sub.date.max())
+                                        .from(sub)
+                                        .where(sub.biz.id.eq(dailyStatisticEntity.biz.id))
+                        )
+                )
+                .orderBy(dailyStatisticEntity.totalCarCount.desc())
+                .limit(10)
+                .fetch();
+    }
 }
+

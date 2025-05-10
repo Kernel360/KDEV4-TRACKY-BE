@@ -3,6 +3,8 @@ package kernel360.trackyweb.admin.statistic.presentation;
 import java.time.LocalDate;
 import java.util.List;
 
+import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
+import kernel360.trackyweb.admin.statistic.application.dto.response.HourlyGraphResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,13 +50,13 @@ public class AdminStatisticController {
 		return null;
 	}
 
-	@GetMapping("/hourly")
-	public ApiResponse<AdminBizStatisticResponse> getHourlyDriveCounts(AdminStatisticRequest adminStatisticRequest) {
-		return null;
+	@GetMapping("/hourly-graph")
+	public ApiResponse<List<HourlyGraphResponse>> getHourlyDriveCounts() {
+		return adminStatisticService.getHourlyGraph();
 	}
 
 	@GetMapping("/graphs")
-	public ApiResponse<AdminBizStatisticResponse> getGraphs() {
-		return null;
+	public ApiResponse<GraphsResponse> getGraphs() {
+		return adminStatisticService.getGraphs();
 	}
 }

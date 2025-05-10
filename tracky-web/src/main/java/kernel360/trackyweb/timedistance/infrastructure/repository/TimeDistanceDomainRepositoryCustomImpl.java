@@ -5,6 +5,8 @@ import static kernel360.trackycore.core.domain.entity.QTimeDistanceEntity.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import kernel360.trackycore.core.domain.entity.TimeDistanceEntity;
+import kernel360.trackyweb.admin.statistic.application.dto.response.HourlyGraphResponse;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.Tuple;
@@ -33,6 +35,22 @@ public class TimeDistanceDomainRepositoryCustomImpl implements TimeDistanceDomai
 			.groupBy(timeDistanceEntity.hour)
 			.orderBy(timeDistanceEntity.hour.asc())
 			.fetch();
+	}
+
+	@Override
+	public List<HourlyGraphResponse> getYesterdayData() {
+		LocalDate yesterday = LocalDate.now().minusDays(1);
+
+		return queryFactory
+				.select(Projections.constructor(
+						HourlyGraphResponse.class,
+						timeDistanceEntity.hour,
+						timeDistanceEntity.count()
+				))
+				.from(timeDistanceEntity)
+				.where(timeDistanceEntity.date.eq(yesterday))
+				.groupBy(timeDistanceEntity.hour)
+				.fetch();
 	}
 
 	@Override

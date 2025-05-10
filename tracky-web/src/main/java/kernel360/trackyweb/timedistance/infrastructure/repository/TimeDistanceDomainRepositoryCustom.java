@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.querydsl.core.Tuple;
 
+import kernel360.trackycore.core.domain.entity.TimeDistanceEntity;
+import kernel360.trackyweb.admin.statistic.application.dto.response.HourlyGraphResponse;
 import kernel360.trackyweb.timedistance.application.dto.internal.OperationDistance;
 import kernel360.trackyweb.timedistance.application.dto.internal.OperationSeconds;
 
@@ -14,4 +16,6 @@ public interface TimeDistanceDomainRepositoryCustom {
 	List<OperationDistance> getDailyOperationDistance(LocalDate targetDate);
 
 	List<Tuple> countByBizIdAndDateGroupedByHour(Long bizId, LocalDate date);
+
+	List<HourlyGraphResponse> getYesterdayData();
 }
