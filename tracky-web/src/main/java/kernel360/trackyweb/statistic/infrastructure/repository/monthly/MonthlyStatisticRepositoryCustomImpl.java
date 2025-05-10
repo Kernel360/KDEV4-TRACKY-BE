@@ -30,6 +30,13 @@ public class MonthlyStatisticRepositoryCustomImpl implements MonthlyStatisticRep
 			.fetchOne();
 	}
 
+	/**
+	 * 월별 운행량 그래프 데이터 조회
+	 * @param bizId
+	 * @param currentDate
+	 * @param targetDate targetDate BETWEEN currentDate 기간 조회
+	 * @return
+	 */
 	@Override
 	public List<MonthlyStatisticResponse.MonthlyStats> getMonthlyStats(Long bizId, LocalDate currentDate,
 		LocalDate targetDate) {
