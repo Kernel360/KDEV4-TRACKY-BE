@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import kernel360.trackyweb.timedistance.application.dto.internal.OperationDistance;
@@ -31,7 +29,7 @@ public class TimeDistanceDomainRepositoryCustomImpl implements TimeDistanceDomai
 			.where(timeDistanceEntity.biz.id.eq(bizId)
 				.and(timeDistanceEntity.date.eq(date))
 			)
-			.orderBy(e.hour.asc())
+			.orderBy(timeDistanceEntity.hour.asc())
 			.groupBy(timeDistanceEntity.hour)
 			.orderBy(timeDistanceEntity.hour.asc())
 			.fetch();
@@ -64,12 +62,5 @@ public class TimeDistanceDomainRepositoryCustomImpl implements TimeDistanceDomai
 			.where(timeDistanceEntity.date.eq(targetDate))
 			.groupBy(timeDistanceEntity.biz.id)
 			.fetch();
-	}
-
-	private BooleanExpression isEqualsBizId(Long bizId) {
-		if (bizId == null) {
-			return Expressions.TRUE;
-		}
-		return timeDistanceEntity.biz.id.eq(bizId);
 	}
 }
