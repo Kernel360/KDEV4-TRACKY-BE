@@ -2,8 +2,10 @@ package kernel360.trackyconsumer.consumer.application.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import kernel360.trackycore.core.domain.entity.enums.CarStatus;
-import org.springframework.scheduling.annotation.Async;
+
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import kernel360.trackyconsumer.consumer.application.dto.request.CarOnOffRequest;
@@ -36,7 +38,7 @@ public class ConsumerService {
 	private final RentDomainProvider rentDomainProvider;
 	private final TimeDistanceDomainProvider timeDistanceDomainProvider;
 
-	@Async("taskExecutor")
+	// @Async("taskExecutor")
 	@Transactional
 	public void receiveCycleInfo(GpsHistoryMessage request) {
 
@@ -138,6 +140,12 @@ public class ConsumerService {
 			saveTimeDistance(prevDate, prevHour, car, distance, seconds);
 	}
 
+	@Retryable(
+		value = OptimisticLockingFailureException.class,
+		maxAttempts = 3,
+		backoff = @Backoff(delay = 100, multiplier = 2, maxDelay = 2000),
+		listeners = "retryListener"
+	)
 	private void saveTimeDistance(LocalDate date, int hour, CarEntity car, double totalDistance, int seconds) {
 
 		timeDistanceDomainProvider.getTimeDistance(date, hour, car)
