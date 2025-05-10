@@ -8,4 +8,6 @@ import kernel360.trackycore.core.domain.entity.BizEntity;
 
 public interface BizRepository extends JpaRepository<BizEntity, Long> {
 	Optional<BizEntity> findByBizUuid(String bizUuid);
+
+	Optional<BizEntity> findByBizName(String bizName);
 }
