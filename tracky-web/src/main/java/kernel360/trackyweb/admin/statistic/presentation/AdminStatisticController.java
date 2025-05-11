@@ -5,6 +5,7 @@ import java.util.List;
 
 import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
 import kernel360.trackyweb.admin.statistic.application.dto.response.HourlyGraphResponse;
+import kernel360.trackyweb.admin.statistic.application.dto.response.MonthlyDriveCountResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,14 +42,11 @@ public class AdminStatisticController {
 	}
 
 	@GetMapping("/monthly")
-	public ApiResponse<AdminBizStatisticResponse> getMonthlyDriveCounts(AdminStatisticRequest adminStatisticRequest) {
-		return null;
+	public ApiResponse<List<MonthlyDriveCountResponse>> getMonthlyDriveCounts(
+			@ModelAttribute AdminStatisticRequest adminStatisticRequest) {
+		return adminStatisticService.getAdminBizMonthlyDriveCount(adminStatisticRequest.bizName());
 	}
 
-	@GetMapping("/daily")
-	public ApiResponse<AdminBizStatisticResponse> getDailyDriveCounts(AdminStatisticRequest adminStatisticRequest) {
-		return null;
-	}
 
 	@GetMapping("/hourly-graph")
 	public ApiResponse<List<HourlyGraphResponse>> getHourlyDriveCounts() {

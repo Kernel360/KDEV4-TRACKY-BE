@@ -4,13 +4,16 @@ import static kernel360.trackycore.core.domain.entity.QDailyStatisticEntity.dail
 import static kernel360.trackycore.core.domain.entity.QMonthlyStatisticEntity.*;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
+import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackycore.core.domain.entity.QDailyStatisticEntity;
 import kernel360.trackycore.core.domain.entity.QMonthlyStatisticEntity;
 import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
+import kernel360.trackyweb.admin.statistic.application.dto.response.MonthlyDriveCountResponse;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
@@ -94,12 +97,12 @@ public class MonthlyStatisticRepositoryCustomImpl implements MonthlyStatisticRep
     @Override
     public List<GraphsResponse.DriveCount> getTotalDriveCount() {
         LocalDate thisMonth = LocalDate.now().minusDays(1);
-        LocalDate sixMonthsAgo = thisMonth.minusMonths(5).withDayOfMonth(thisMonth.minusMonths(5).lengthOfMonth());
+        LocalDate sixMonthsAgo =YearMonth.now().minusMonths(6).atEndOfMonth();
 
         return queryFactory
                 .select(Projections.constructor(
                         GraphsResponse.DriveCount.class,
-                        monthlyStatisticEntity.date.month(),
+                        monthlyStatisticEntity.date,
                         monthlyStatisticEntity.totalDriveCount.sum()
                 ))
                 .from(monthlyStatisticEntity)
@@ -107,6 +110,20 @@ public class MonthlyStatisticRepositoryCustomImpl implements MonthlyStatisticRep
                 .groupBy(monthlyStatisticEntity.date)
                 .orderBy(monthlyStatisticEntity.date.desc())
                 .limit(6)
+                .fetch();
+    }
+
+    @Override
+    public List<MonthlyStatisticEntity> getTotalDriveCountInOneYear(String bizName) {
+        LocalDate thisMonth = LocalDate.now().minusDays(1);
+        LocalDate twelveMonthsAgo = YearMonth.now().minusMonths(12).atEndOfMonth();
+
+        return queryFactory
+                .selectFrom(monthlyStatisticEntity)
+                .where(
+                        monthlyStatisticEntity.biz.bizName.eq(bizName)
+                                .and(monthlyStatisticEntity.date.between(twelveMonthsAgo, thisMonth))
+                )
                 .fetch();
     }
 }

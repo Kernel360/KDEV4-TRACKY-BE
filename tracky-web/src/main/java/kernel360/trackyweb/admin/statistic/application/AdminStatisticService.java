@@ -5,6 +5,7 @@ import java.util.List;
 
 import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
 import kernel360.trackyweb.admin.statistic.application.dto.response.HourlyGraphResponse;
+import kernel360.trackyweb.admin.statistic.application.dto.response.MonthlyDriveCountResponse;
 import kernel360.trackyweb.statistic.domain.provider.DailyStatisticProvider;
 import kernel360.trackyweb.statistic.domain.provider.MonthlyStatisticProvider;
 import kernel360.trackyweb.timedistance.domain.provider.TimeDistanceDomainProvider;
@@ -63,5 +64,9 @@ public class AdminStatisticService {
 
 		return ApiResponse.success(GraphsResponse.toResponse(
 				carCountWithBizName, operationRateWithBizName, nonOperatedCarWithBizName, monthlyDriveCount));
+	}
+
+	public ApiResponse<List<MonthlyDriveCountResponse>> getAdminBizMonthlyDriveCount(String bizName) {
+		return ApiResponse.success(MonthlyDriveCountResponse.toDto(monthlyStatisticProvider.getAdminBizMonthlyDriveCount(bizName)));
 	}
 }

@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
+import kernel360.trackyweb.admin.statistic.application.dto.response.MonthlyDriveCountResponse;
 import org.springframework.stereotype.Component;
 
 import jakarta.transaction.Transactional;
@@ -61,5 +63,9 @@ public class MonthlyStatisticProvider {
 
 	public List<GraphsResponse.DriveCount> getDriveCount() {
 		return monthlyStatisticRepository.getTotalDriveCount();
+	}
+
+	public List<MonthlyStatisticEntity> getAdminBizMonthlyDriveCount(String bizName) {
+		return monthlyStatisticRepository.getTotalDriveCountInOneYear(bizName);
 	}
 }

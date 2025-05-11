@@ -1,5 +1,6 @@
 package kernel360.trackyweb.admin.statistic.application.dto.response;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record GraphsResponse (
@@ -11,7 +12,7 @@ public record GraphsResponse (
     public record CarCount(String bizName, int carCount) {}
     public record OperationRate(String bizName, double rate) {}
     public record NonOperatedCar(String bizName, int nonOperatedCarCount) {}
-    public record DriveCount(int month, int driveCount) {}
+    public record DriveCount(LocalDate date, int driveCount) {}
 
     public static GraphsResponse toResponse(
             List<CarCount> carCount, List<OperationRate> operationRate,

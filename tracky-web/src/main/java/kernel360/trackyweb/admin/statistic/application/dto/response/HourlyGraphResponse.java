@@ -1,8 +1,5 @@
 package kernel360.trackyweb.admin.statistic.application.dto.response;
 
-
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
