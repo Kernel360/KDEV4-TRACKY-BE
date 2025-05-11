@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import kernel360.trackycore.core.domain.entity.QBizEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -116,14 +117,15 @@ public class CarDomainRepositoryCustomImpl implements CarDomainRepositoryCustom 
 	@Override
 	public List<CarCountWithBizId> getDailyTotalCarCount() {
 		return queryFactory
-			.select(Projections.constructor(
-				CarCountWithBizId.class,
-				carEntity.biz.id,
-				carEntity.count()
-			))
-			.from(carEntity)
-			.groupBy(carEntity.biz.id)
-			.fetch();
+				.select(Projections.constructor(
+						CarCountWithBizId.class,
+						bizEntity.id,
+						carEntity.count().coalesce(0L) // car가 없을 경우 0으로 처리
+				))
+				.from(bizEntity)
+				.leftJoin(carEntity).on(carEntity.biz.id.eq(bizEntity.id))
+				.groupBy(bizEntity.id)
+				.fetch();
 	}
 
 	@Override

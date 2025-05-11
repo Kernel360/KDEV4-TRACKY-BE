@@ -12,7 +12,7 @@ public record OperationSeconds(
 		return dtoList.stream()
 			.collect(Collectors.toMap(
 				OperationSeconds::bizId,
-				dto -> (long)dto.operationSeconds() // int → long 변환
+				dto -> (long)dto.operationSeconds()
 			));
 	}
 

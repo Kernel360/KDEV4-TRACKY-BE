@@ -1,14 +1,12 @@
 package kernel360.trackyweb.statistic.infrastructure.repository.daily;
 
 import static kernel360.trackycore.core.domain.entity.QDailyStatisticEntity.*;
+import static kernel360.trackycore.core.domain.entity.QBizEntity.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.querydsl.jpa.JPAExpressions;
-import kernel360.trackycore.core.domain.entity.QDailyStatisticEntity;
 import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
 import org.springframework.stereotype.Repository;
 
@@ -36,12 +34,15 @@ public class DailyStatisticRepositoryCustomImpl implements DailyStatisticReposit
         return queryFactory
                 .select(Projections.constructor(
                         TotalCarCount.class,
-                        dailyStatisticEntity.bizId,
-                        dailyStatisticEntity.totalCarCount
+                        bizEntity.id,
+                        dailyStatisticEntity.totalCarCount.coalesce(0)
                 ))
-                .from(dailyStatisticEntity)
-                .orderBy(dailyStatisticEntity.date.desc())
-                .groupBy(dailyStatisticEntity.bizId)
+                .from(bizEntity)
+                .leftJoin(dailyStatisticEntity).on(
+                        dailyStatisticEntity.bizId.eq(bizEntity.id),
+                        dailyStatisticEntity.date.eq(targetDate)
+                )
+                .groupBy(bizEntity.id)
                 .fetch();
     }
 
@@ -53,13 +54,17 @@ public class DailyStatisticRepositoryCustomImpl implements DailyStatisticReposit
         return queryFactory
                 .select(Projections.constructor(
                         OperationRate.class,
-                        dailyStatisticEntity.bizId,
-                        dailyStatisticEntity.avgOperationRate.avg()
+                        bizEntity.id,
+                        dailyStatisticEntity.avgOperationRate.avg().coalesce(0.0)
                 ))
-                .from(dailyStatisticEntity)
-                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
-                .groupBy(dailyStatisticEntity.bizId)
+                .from(bizEntity)
+                .leftJoin(dailyStatisticEntity).on(
+                        dailyStatisticEntity.bizId.eq(bizEntity.id),
+                        dailyStatisticEntity.date.between(firstDay, targetDate)
+                )
+                .groupBy(bizEntity.id)
                 .fetch();
+
     }
 
     //차량 운행 횟수의 총 합계
@@ -70,12 +75,15 @@ public class DailyStatisticRepositoryCustomImpl implements DailyStatisticReposit
         return queryFactory
                 .select(Projections.constructor(
                         OperationCount.class,
-                        dailyStatisticEntity.bizId,
-                        dailyStatisticEntity.dailyDriveCount.sum()
+                        bizEntity.id,
+                        dailyStatisticEntity.dailyDriveCount.sum().coalesce(0)
                 ))
-                .from(dailyStatisticEntity)
-                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
-                .groupBy(dailyStatisticEntity.bizId)
+                .from(bizEntity)
+                .leftJoin(dailyStatisticEntity).on(
+                        dailyStatisticEntity.bizId.eq(bizEntity.id),
+                        dailyStatisticEntity.date.between(firstDay, targetDate)
+                )
+                .groupBy(bizEntity.id)
                 .fetch();
     }
 
@@ -87,12 +95,15 @@ public class DailyStatisticRepositoryCustomImpl implements DailyStatisticReposit
         return queryFactory
                 .select(Projections.constructor(
                         OperationTime.class,
-                        dailyStatisticEntity.bizId,
-                        dailyStatisticEntity.dailyDriveSec.sum()
+                        bizEntity.id,
+                        dailyStatisticEntity.dailyDriveSec.sum().coalesce(0L)
                 ))
-                .from(dailyStatisticEntity)
-                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
-                .groupBy(dailyStatisticEntity.bizId)
+                .from(bizEntity)
+                .leftJoin(dailyStatisticEntity).on(
+                        dailyStatisticEntity.bizId.eq(bizEntity.id),
+                        dailyStatisticEntity.date.between(firstDay, targetDate)
+                )
+                .groupBy(bizEntity.id)
                 .fetch();
     }
 
@@ -104,12 +115,15 @@ public class DailyStatisticRepositoryCustomImpl implements DailyStatisticReposit
         return queryFactory
                 .select(Projections.constructor(
                         OperationDistance.class,
-                        dailyStatisticEntity.bizId,
-                        dailyStatisticEntity.dailyDriveDistance.sum()
+                        bizEntity.id,
+                        dailyStatisticEntity.dailyDriveDistance.sum().coalesce(0.0)
                 ))
-                .from(dailyStatisticEntity)
-                .where(dailyStatisticEntity.date.between(firstDay, targetDate))
-                .groupBy(dailyStatisticEntity.bizId)
+                .from(bizEntity)
+                .leftJoin(dailyStatisticEntity).on(
+                        dailyStatisticEntity.bizId.eq(bizEntity.id),
+                        dailyStatisticEntity.date.between(firstDay, targetDate)
+                )
+                .groupBy(bizEntity.id)
                 .fetch();
     }
 

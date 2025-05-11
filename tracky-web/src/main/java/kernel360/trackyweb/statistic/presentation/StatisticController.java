@@ -4,13 +4,10 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
+import kernel360.trackyweb.statistic.application.SchedulerService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import kernel360.trackycore.core.common.api.ApiResponse;
 import kernel360.trackyweb.sign.infrastructure.security.principal.MemberPrincipal;
@@ -29,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class StatisticController {
 
 	private final StatisticService statisticService;
+	private final SchedulerService schedulerService;
 
 	@GetMapping("/daily")
 	public ApiResponse<DailyStatisticResponse> getDailyStatistic(
@@ -57,4 +55,11 @@ public class StatisticController {
 	) {
 		return statisticService.getCarStatistic(memberPrincipal.bizUuid(), carStatisticRequest);
 	}
+
+	@PostMapping("/create-daily")
+	public String createDaily() {
+		schedulerService.monthlyStatistic(LocalDate.now().minusDays(1));
+		return "ok";
+	}
 }
+
