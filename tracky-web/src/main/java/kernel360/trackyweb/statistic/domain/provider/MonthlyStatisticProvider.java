@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import kernel360.trackyweb.admin.statistic.application.dto.response.GraphsResponse;
 import org.springframework.stereotype.Component;
 
 import jakarta.transaction.Transactional;
@@ -31,7 +32,7 @@ public class MonthlyStatisticProvider {
 
 		for (MonthlyStatisticEntity entity : resultEntities) {
 			Optional<MonthlyStatisticEntity> existEntity = monthlyStatisticRepository.findByBizIdAndDate(
-				entity.getBizId(), entity.getDate());
+				entity.getBizId(), entity.getDate().minusDays(1));
 
 			if (existEntity.isPresent()) {
 				MonthlyStatisticEntity existing = existEntity.get();
@@ -54,4 +55,11 @@ public class MonthlyStatisticProvider {
 		return monthlyStatisticRepository.findLatestMonthlyStatistic(bizUuid);
 	}
 
+	public List<GraphsResponse.NonOperatedCar> getNonOperatedCarWithBizName() {
+		return monthlyStatisticRepository.getNonOperatedCarWithBizName();
+	}
+
+	public List<GraphsResponse.DriveCount> getDriveCount() {
+		return monthlyStatisticRepository.getTotalDriveCount();
+	}
 }

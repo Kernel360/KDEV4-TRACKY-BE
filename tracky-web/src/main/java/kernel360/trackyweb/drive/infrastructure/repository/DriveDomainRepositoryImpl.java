@@ -50,7 +50,7 @@ public class DriveDomainRepositoryImpl implements DriveDomainRepositoryCustom {
 		BooleanBuilder condition = new BooleanBuilder();
 
 		// 날짜 구간은 무조건 필터링
-		condition.and(driveEntity.driveOnTime.between(startDate.atStartOfDay(), endDate.atStartOfDay()));
+		condition.and(driveEntity.driveOnTime.between(startDate.atStartOfDay(), endDate.atStartOfDay().plusDays(1)));
 		condition.and(isEqualMdnContainsRenterName(mdn, search));
 
 		// 메인 쿼리

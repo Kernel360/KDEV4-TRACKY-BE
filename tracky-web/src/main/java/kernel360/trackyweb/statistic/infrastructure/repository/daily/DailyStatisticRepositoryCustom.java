@@ -25,4 +25,6 @@ public interface DailyStatisticRepositoryCustom {
 	List<Integer> findDriveCountByBizUuid(String bizUuid);
 
     List<GraphsResponse.CarCount> getCarCountAndBizName();
+
+	List<GraphsResponse.OperationRate> getOperationRateAndBizName();
 }

@@ -66,4 +66,8 @@ public class DailyStatisticProvider {
 	public List<GraphsResponse.CarCount> getCarCountWithBizName() {
 		return dailyStatisticDomainRepository.getCarCountAndBizName();
 	}
+
+	public List<GraphsResponse.OperationRate> getOperationRatesAvgWithBizName() {
+		return dailyStatisticDomainRepository.getOperationRateAndBizName();
+	}
 }

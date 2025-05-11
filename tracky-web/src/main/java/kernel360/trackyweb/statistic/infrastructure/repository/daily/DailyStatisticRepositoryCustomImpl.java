@@ -146,25 +146,37 @@ public class DailyStatisticRepositoryCustomImpl implements DailyStatisticReposit
 
     @Override
     public List<GraphsResponse.CarCount> getCarCountAndBizName() {
-        QDailyStatisticEntity sub = new QDailyStatisticEntity("sub");
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+
+        return queryFactory
+                .select(
+                        Projections.constructor(
+                                GraphsResponse.CarCount.class,
+                                dailyStatisticEntity.biz.bizName,
+                                dailyStatisticEntity.totalCarCount
+                        )
+                )
+                .from(dailyStatisticEntity)
+                .where(dailyStatisticEntity.date.eq(yesterday))
+                .orderBy(dailyStatisticEntity.totalCarCount.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<GraphsResponse.OperationRate> getOperationRateAndBizName() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
 
         return queryFactory
                 .select(Projections.constructor(
-                        GraphsResponse.CarCount.class,
-                        dailyStatisticEntity.biz.bizName,
-                        dailyStatisticEntity.totalCarCount
-                ))
-                .from(dailyStatisticEntity)
-                .where(
-                        dailyStatisticEntity.date.eq(
-                                JPAExpressions
-                                        .select(sub.date.max())
-                                        .from(sub)
-                                        .where(sub.biz.id.eq(dailyStatisticEntity.biz.id))
+                                GraphsResponse.OperationRate.class,
+                                dailyStatisticEntity.biz.bizName,
+                                dailyStatisticEntity.avgOperationRate
                         )
                 )
-                .orderBy(dailyStatisticEntity.totalCarCount.desc())
-                .limit(10)
+                .from(dailyStatisticEntity)
+                .where(dailyStatisticEntity.date.eq(yesterday))
+                .orderBy(dailyStatisticEntity.avgOperationRate.desc())
+                .limit(5)
                 .fetch();
     }
 }

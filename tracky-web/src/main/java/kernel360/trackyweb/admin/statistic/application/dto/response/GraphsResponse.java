@@ -8,10 +8,10 @@ public record GraphsResponse (
         List<NonOperatedCar> nonOperatedCarWithBizName,
         List<DriveCount> monthlyDriveCount
 ) {
-    public static record CarCount(String bizName, int carCount) {}
-    public static record OperationRate(String bizName, double rate) {}
-    public static record NonOperatedCar(String bizName, int nonOperatedCarCount) {}
-    public static record DriveCount(int month, int driveCount) {}
+    public record CarCount(String bizName, int carCount) {}
+    public record OperationRate(String bizName, double rate) {}
+    public record NonOperatedCar(String bizName, int nonOperatedCarCount) {}
+    public record DriveCount(int month, int driveCount) {}
 
     public static GraphsResponse toResponse(
             List<CarCount> carCount, List<OperationRate> operationRate,
