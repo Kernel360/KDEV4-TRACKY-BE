@@ -61,7 +61,7 @@ ERD - [https://www.erdcloud.com/d/mE2uimBHiXsvoxAWJ](https://www.erdcloud.com/d/
   - 테스트 시나리오, 환경, 결과 도출 과정
   - 테스트 도중 발생한 트러블 슈팅
 
-- [복합 인덱스를 통한 쿼리 최적화 과정](https://www.notion.so/1f2a3f519ab880c78f86f8d1bf688ba3)
+- [복합 인덱스를 통한 쿼리 최적화 과정](https://github.com/Kernel360/KDEV4-TRACKY-BE/wiki/%EB%B3%B5%ED%95%A9-%EC%9D%B8%EB%8D%B1%EC%8A%A4%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%A1%B0%ED%9A%8C-%EC%BF%BC%EB%A6%AC-%EC%B5%9C%EC%A0%81%ED%99%94-%EA%B3%BC%EC%A0%95)
 
 
 ## 팀원소개
