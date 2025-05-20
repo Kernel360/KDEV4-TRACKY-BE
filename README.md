@@ -56,7 +56,7 @@ ERD - [https://www.erdcloud.com/d/mE2uimBHiXsvoxAWJ](https://www.erdcloud.com/d/
 
 
 ## 이슈 및 트러블 슈팅
-- [부하테스트 - 15,000 TPS 수용하기](https://www.canva.com/design/DAGfcRy6xGE/q6HvKo_qZ0ftXHH79zK6rg/edit?utm_content=DAGfcRy6xGE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+- [부하테스트 - 15,000 TPS 수용하기]
   - hub, consumer 구조 채택 이유
   - 테스트 시나리오, 환경, 결과 도출 과정
   - 테스트 도중 발생한 트러블 슈팅
