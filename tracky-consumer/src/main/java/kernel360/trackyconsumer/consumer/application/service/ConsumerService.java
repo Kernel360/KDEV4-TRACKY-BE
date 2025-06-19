@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -158,23 +161,29 @@ public class ConsumerService {
 			saveTimeDistance(prevDate, prevHour, car, distance, seconds);
 	}
 
+	@Retryable(
+			value = OptimisticLockingFailureException.class,
+			maxAttempts = 3,
+			backoff = @Backoff(delay = 100, multiplier = 2, maxDelay = 2000),
+			listeners = "retryListener"
+	)
 	private void saveTimeDistance(LocalDate date, int hour, CarEntity car, double totalDistance, int seconds) {
 
-		Optional<TimeDistanceEntity> timeDistance = timeDistanceDomainProvider.getTimeDistance(date, hour, car);
+		// Optional<TimeDistanceEntity> timeDistance = timeDistanceDomainProvider.getTimeDistance(date, hour, car);
 
-		if (timeDistance.isPresent()) {
-			timeDistance.get().updateDistance(totalDistance, seconds);
-		} else {
-			timeDistanceDomainProvider.save(
-				TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds)
-			);
-		}
-		// timeDistanceDomainProvider.getTimeDistance(date, hour, car)
-		// 	.ifPresentOrElse(
-		// 		timeDistance -> timeDistance.updateDistance(totalDistance, seconds),
-		// 		() -> timeDistanceDomainProvider.save(
-		// 			TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds)
-		// 		)
+		// if (timeDistance.isPresent()) {
+		// 	timeDistance.get().updateDistance(totalDistance, seconds);
+		// } else {
+		// 	timeDistanceDomainProvider.save(
+		// 		TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds)
 		// 	);
+		// }
+		timeDistanceDomainProvider.getTimeDistance(date, hour, car)
+			.ifPresentOrElse(
+				timeDistance -> timeDistance.updateDistance(totalDistance, seconds),
+				() -> timeDistanceDomainProvider.save(
+					TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds)
+				)
+			);
 	}
 }

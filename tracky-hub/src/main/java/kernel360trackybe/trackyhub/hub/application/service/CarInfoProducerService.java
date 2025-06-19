@@ -56,7 +56,7 @@ public class CarInfoProducerService {
 			"",
 			gpsHistoryMessage
 		);
-		log.info("주기 정보 전송:{}", gpsHistoryMessage.toString());
+		// log.info("주기 정보 전송");
 	}
 
 	public String getToken() {

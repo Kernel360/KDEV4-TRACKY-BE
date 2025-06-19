@@ -9,7 +9,7 @@ spring:
     properties:
       hibernate:
         jdbc:
-          batch_size: 20000
+          batch_size: 10 # (600개 Bulk Insert)
         order_inserts: true
         order_updates: true
 
@@ -18,7 +18,7 @@ rabbitmq:
     # 배치 리스너 관련 설정
     default-requeue-rejected: false
     enabled: true       # 배치 리스너 활성화
-    size: 10            # 배치 크기
+    size: 10            # 배치 크기(60*10=600개)
     timeout: 2000      # 타임아웃(ms) - 짧게 설정하여 메트릭 수집 빈도 향상
     consumer-batch-enabled: true  # 내부 배치 처리 기능 활성화
 
@@ -28,3 +28,9 @@ server:
 discord:
   enable: ${DISCORD_WEBHOOK_ENABLE:false}
   webhook-url: ${DISCORD_WEBHOOK_WEB_URL}
+
+logging:
+  level:
+    org.springframework.web: INFO
+    org.springframework.boot.actuate: INFO
+    org.springframework.boot.actuate.endpoint.web: WARN  # actuator 엔드포인트 로깅 레벨을 WARN으로 설정

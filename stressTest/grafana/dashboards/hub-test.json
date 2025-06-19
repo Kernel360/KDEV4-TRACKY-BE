@@ -98,7 +98,7 @@
       },
       "targets": [
         {
-          "expr": "rate(k6_http_reqs_total{url=~\".*hub-922210846945.asia-northeast3.run.app.*\"}[1m])",
+          "expr": "sum(rate(k6_http_reqs_total{url=~\".*hub-922210846945.asia-northeast3.run.app.*\"}[1m]))",
           "legendFormat": "초당 요청 수 (RPS)",
           "refId": "A"
         }
@@ -183,14 +183,19 @@
       },
       "targets": [
         {
-          "expr": "rate(k6_iterations_total[1m])",
-          "legendFormat": "초당 트랜잭션 수 (TPS)",
+          "expr": "sum(rate(k6_http_reqs_total{url=~\".*hub-922210846945.asia-northeast3.run.app.*\", status=~\"2..\"}[1m]))",
+          "legendFormat": "성공 TPS (Successful)",
           "refId": "A"
+        },
+        {
+          "expr": "sum(rate(k6_http_reqs_total{url=~\".*hub-922210846945.asia-northeast3.run.app.*\"}[1m]))",
+          "legendFormat": "시도 TPS (Attempted)",
+          "refId": "B"
         }
       ],
       "fieldConfig": {
         "defaults": {
-          "unit": "ops"
+          "unit": "reqs/s"
         },
         "overrides": []
       },

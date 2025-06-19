@@ -17,7 +17,14 @@ dependencies {
     implementation "com.querydsl:querydsl-core:5.0.0"
     implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
 
-    implementation project(':tracky-core')
+    // Spring Boot Web starter (기본 내장 톰캣 제외)
+    implementation(project(':tracky-core'))
+//    implementation(project(':tracky-core')) {
+//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+//    }
+
+    // Undertow 내장 웹 서버 의존성 추가
+//    implementation 'org.springframework.boot:spring-boot-starter-undertow'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
 

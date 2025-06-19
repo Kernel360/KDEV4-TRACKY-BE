@@ -7,8 +7,8 @@ export const options = {
     scenarios: {
         load_test: {
             executor: 'per-vu-iterations',
-            vus: 50,           // 1500명의 가상 사용자
-            iterations: 300,    // 각 VU당 1번 실행
+            vus: 200,           // 100명의 가상 사용자
+            iterations: 75,    // 각 VU당 150번 실행 - 총 1.5만번 요청
             maxDuration: '600s',     // 최대 실행 시간
         },
     },
@@ -24,7 +24,10 @@ export const options = {
 
 export default function () {
     const url = 'http://host.docker.internal:8082/hub/car/cycle';
-    const server_url = 'https://api.tracky.kr:777/hub/car/cycle';
+    const tomcat = 'https://tracky-tomcat-922210846945.asia-northeast3.run.app/hub/car/cycle';
+    const undertow = 'https://hub-undertow-922210846945.asia-northeast3.run.app/hub/car/cycle'
+    const start = 'https://consumer-922210846945.asia-northeast3.run.app/consume/start'
+    const stop = 'https://consumer-922210846945.asia-northeast3.run.app/consume/stop'
     const headers = {
         'Content-Type': 'application/json',
     };
@@ -35,4 +38,7 @@ export default function () {
     const payload = JSON.stringify(requestBodyList[index]);
     const res = http.post(url, payload, {headers});
     check(res, {'status is 200': (r) => r.status === 200});
+
+    // const startstop = http.post(start, payload, {headers});
+    // check(startstop, {'status is 200': (r) => r.status === 200});
 }

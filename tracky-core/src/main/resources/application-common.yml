@@ -3,14 +3,15 @@ spring:
     import: optional:classpath:.env[.properties]
 
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
+#    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&rewriteBatchedStatements=true
     username: ${DB_USER}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       pool-name: ConsumerHikariCP
-      maximum-pool-size: 50
-      minimum-idle: 10
+      maximum-pool-size: 5
+      minimum-idle: 5
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 600000
@@ -63,11 +64,15 @@ management:
       tomcat: true
       rabbitmq: true  # RabbitMQ 메트릭 활성화
 
-logging:
-  level:
+#logging:
+#  level:
     # RabbitMQ ConnectionFactory INFO 로그 끄기
-    org.springframework.amqp.rabbit.connection.CachingConnectionFactory: OFF
+#    org.springframework.amqp.rabbit.connection.CachingConnectionFactory: OFF
     # RabbitMQ Listener INFO 로그 끄기
-    org.springframework.amqp.rabbit.listener: OFF
+#    org.springframework.amqp.rabbit.listener: OFF
+#    # 스프링의 웹 요청/응답 관련 로그 레벨을 WARN으로 상향 조정
+#    org.springframework.web.servlet.DispatcherServlet: WARN
+#    # Tomcat/Undertow 같은 내장 WAS의 액세스 로그 레벨을 WARN으로 상향 조정
+#    org.apache.coyote.http11.Http11Processor: WARN
     #    org.hibernate.SQL: DEBUG
 #    com.mysql.cj.jdbc: TRACE  # MySQL JDBC 드라이버 로깅

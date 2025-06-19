@@ -34,9 +34,9 @@ public class RabbitMQConfig {
 		factory.setConsumerBatchEnabled(properties.getBatch().isConsumerBatchEnabled());
 		factory.setMessageConverter(messageConverter());
 
-		// 리스너 스레드 설정 (배치 리스너에서도 10개의 컨슈머 사용)
-		factory.setConcurrentConsumers(10);
-		factory.setMaxConcurrentConsumers(10);  // 최대 컨슈머도 동일하게 설정
+		// 리스너 스레드 설정 (배치 리스너에서도 20개의 컨슈머 사용)
+		factory.setConcurrentConsumers(5);
+		factory.setMaxConcurrentConsumers(5);  // 최대 컨슈머도 동일하게 설정
 
 		// 메트릭 측정을 위한 설정
 		factory.setMicrometerEnabled(true);  // Micrometer 메트릭 활성화
@@ -49,29 +49,29 @@ public class RabbitMQConfig {
 
 		factory.setDefaultRequeueRejected(properties.getBatch().isDefaultRequeueRejected());
 
-		log.info(
-			"RabbitMQ 배치 리스너 설정: concurrentConsumers={}, batchSize={}, timeout={}, enabled={}, consumerBatchEnabled={}",
-			10, properties.getBatch().getSize(), properties.getBatch().getTimeout(),
-			properties.getBatch().isEnabled(), properties.getBatch().isConsumerBatchEnabled());
+		// log.info(
+		// 	"RabbitMQ 배치 리스너 설정: concurrentConsumers={}, batchSize={}, timeout={}, enabled={}, consumerBatchEnabled={}",
+		// 	10, properties.getBatch().getSize(), properties.getBatch().getTimeout(),
+		// 	properties.getBatch().isEnabled(), properties.getBatch().isConsumerBatchEnabled());
 
 		return factory;
 	}
 
-	// 일반 리스너 컨테이너 팩토리도 정의하여 메트릭 수집 보장
-	@Bean
-	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
-		ConnectionFactory connectionFactory) {
-		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-		factory.setConnectionFactory(connectionFactory);
-		factory.setMessageConverter(messageConverter());
-		factory.setConcurrentConsumers(5);
-		factory.setMaxConcurrentConsumers(10);
-
-		factory.setMicrometerEnabled(true);
-		factory.setObservationEnabled(true);
-
-		log.info("RabbitMQ 일반 리스너 설정: concurrentConsumers=5, maxConcurrentConsumers=10");
-
-		return factory;
-	}
+//	// 일반 리스너 컨테이너 팩토리도 정의하여 메트릭 수집 보장
+//	@Bean
+//	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
+//		ConnectionFactory connectionFactory) {
+//		SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+//		factory.setConnectionFactory(connectionFactory);
+//		factory.setMessageConverter(messageConverter());
+//		factory.setConcurrentConsumers(5);
+//		factory.setMaxConcurrentConsumers(10);
+//
+//		factory.setMicrometerEnabled(true);
+//		factory.setObservationEnabled(true);
+//
+//		log.info("RabbitMQ 일반 리스너 설정: concurrentConsumers=5, maxConcurrentConsumers=10");
+//
+//		return factory;
+//	}
 }
