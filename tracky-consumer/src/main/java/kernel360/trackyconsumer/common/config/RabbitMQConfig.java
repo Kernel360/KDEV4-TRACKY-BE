@@ -35,8 +35,8 @@ public class RabbitMQConfig {
 		factory.setMessageConverter(messageConverter());
 
 		// 리스너 스레드 설정 (배치 리스너에서도 20개의 컨슈머 사용)
-		factory.setConcurrentConsumers(5);
-		factory.setMaxConcurrentConsumers(5);  // 최대 컨슈머도 동일하게 설정
+		factory.setConcurrentConsumers(7);
+		factory.setMaxConcurrentConsumers(7);  // 최대 컨슈머도 동일하게 설정
 
 		// 메트릭 측정을 위한 설정
 		factory.setMicrometerEnabled(true);  // Micrometer 메트릭 활성화
