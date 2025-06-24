@@ -49,7 +49,7 @@ services:
     image: grafana/k6:latest
     container_name: k6
     entrypoint: ["k6"]
-    command: run -o experimental-prometheus-rw /scripts/script.js
+    command: run -o experimental-prometheus-rw /scripts/script2.js
     environment:
       - K6_PROMETHEUS_RW_SERVER_URL=http://prometheus:9090/api/v1/write
       - K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true
