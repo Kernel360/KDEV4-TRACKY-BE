@@ -20,6 +20,10 @@ public class TimeDistanceDomainProvider {
 		timeDistanceDomainRepository.save(timeDistance);
 	}
 
+	public void upsert(TimeDistanceEntity timeDistance) {
+		timeDistanceDomainRepository.upsert(timeDistance);
+	}
+
 	public Optional<TimeDistanceEntity> getTimeDistance(LocalDate date, int hour, CarEntity car) {
 		return Optional.ofNullable(timeDistanceDomainRepository.findByDateAndHourAndCar(date, hour, car));
 	}

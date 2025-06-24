@@ -169,21 +169,16 @@ public class ConsumerService {
 	)
 	private void saveTimeDistance(LocalDate date, int hour, CarEntity car, double totalDistance, int seconds) {
 
-		// Optional<TimeDistanceEntity> timeDistance = timeDistanceDomainProvider.getTimeDistance(date, hour, car);
+		// SELECT -> INSERT or UPDATE
+//		timeDistanceDomainProvider.getTimeDistance(date, hour, car)
+//			.ifPresentOrElse(
+//				timeDistance -> timeDistance.updateDistance(totalDistance, seconds),
+//				() -> timeDistanceDomainProvider.save(
+//					TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds)
+//				)
+//			);
 
-		// if (timeDistance.isPresent()) {
-		// 	timeDistance.get().updateDistance(totalDistance, seconds);
-		// } else {
-		// 	timeDistanceDomainProvider.save(
-		// 		TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds)
-		// 	);
-		// }
-		timeDistanceDomainProvider.getTimeDistance(date, hour, car)
-			.ifPresentOrElse(
-				timeDistance -> timeDistance.updateDistance(totalDistance, seconds),
-				() -> timeDistanceDomainProvider.save(
-					TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds)
-				)
-			);
+		// UPSERT
+		timeDistanceDomainProvider.upsert(TimeDistanceEntity.create(car, car.getBiz(), date, hour, totalDistance, seconds));
 	}
 }
